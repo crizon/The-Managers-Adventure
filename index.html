@@ -1,0 +1,812 @@
+<!DOCTYPE html> 
+<html lang="en" style="background-color: black; z-index: -2"> 
+<head> 
+    <meta charset="UTF-8" />
+    <title>The Manager's Adventure</title>
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="phaser.js"></script>
+    <script src="vendor/jquery-1.11.1.min.js"></script>
+    <script src="vendor/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="vendor/sweetalert2.css">
+    <link rel="stylesheet" type="text/css" href="vendor/animate.css">
+    <link rel="stylesheet" type="text/css" href="vendor/own.css">
+    <link rel="stylesheet" type="text/css" href="vendor/jquery.mobile-1.4.5.min.css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="vendor/elusive-icons.css">
+
+    <style type="text/css">
+
+	    ::-webkit-scrollbar { display: none; }
+
+        canvas {
+	        padding-left: 0;
+		    padding-right: 0;
+		    margin-left: auto;
+		    margin-right: auto;
+		    display: block;      }
+    </style>
+
+<!-- TO DISABLE SELECTING -->
+            <style type="text/css">
+              
+            *
+            {
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            }
+
+            input
+            {
+            -webkit-user-select: auto !important;
+            -khtml-user-select: auto !important;
+            -moz-user-select: auto !important;
+            -ms-user-select: auto !important;
+            user-select: auto !important;
+            }
+
+            img { border: none; pointer-events: none}
+            
+
+            button:focus {
+              border: none;
+              outline: none;
+                }
+
+              input:focus {
+              border: none;
+              outline: none;
+                }
+
+                #myVideo {
+						  position: fixed;
+						  right: 0;
+						  bottom: 0;
+						  min-width: 100%; 
+						  min-height: 100%;
+						}
+
+            </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+.no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url(vendor/loader.gif) center no-repeat #fff;
+}
+</style> 
+
+
+<script type="text/javascript">
+
+  $(window).load(function() {
+    $(".se-pre-con").fadeOut("slow");;
+  });
+  
+</script>
+
+
+</head>
+
+<body style="background-color: black">
+
+    <div class="se-pre-con"></div> 
+
+
+	<iframe src="sounds/silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
+    <audio id="bgmx" autoplay loop src="sounds/bgm_main.mp3" type="audio/mp3"> </audio> 
+
+
+<audio id="hoverer" hidden="true" src="sounds/hover.mp3"> </audio>
+<audio id="clickerer" hidden="true" src="sounds/click.mp3"></audio>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).on('pagecreate', '#boot', function(){ 
+
+        splash1();
+        setTimeout(splash2, 4000);
+
+    });
+</script>
+
+<div data-role="page" id="boot">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<video autoplay muted loop id="myVideo">
+            <source src="assets/vid.mp4" type="video/mp4">
+</video>
+
+
+
+<div id="menu" data-role="page" style="background-color: rgba(0,0,0,0); overflow: hidden;">
+    <center>
+
+        
+<br>
+        <div style="border: 5px ridge rgba(200,150,234,.8); padding: 10px; width: 75%; border-radius: 100px; margin-top: 10px; z-index: 2;background-image: url(assets/bg.png)">
+            <img class="jellyrice" src="assets/management.png" width="90%"><br><br>
+            <img class="bootboot" src="yes.png" width="50%">
+            <br>
+            <button class="punch badaboom2" onclick="clicker(),learn()" style="color: orange; margin: 10px; padding: 5px; font-size: 20px" onmouseover="hoverbutton()"> <i class="el el-fw"  style="font-size: 25px; color: pink">&#xf118;</i> Guide Card</button>
+
+            <button class="punch badaboom2" onclick="clicker()" style="color: orange;margin: 10px; padding: 7px; font-size: 20px" onmouseover="hoverbutton()"  data-toggle="modal" data-target="#gensel_modal" data-backdrop="static"> <i class="el el-fw" style="font-size: 25px; color: pink">&#xf1bc;</i> Activity Card</button>
+
+             <button class="punch badaboom2" onclick="clicker()" style="color: orange;margin: 10px; padding: 5px; font-size: 20px" onmouseover="hoverbutton()" data-toggle="modal" data-target="#two_modal" data-backdrop="static"> <i class="el el-fw"  style="font-size: 20px; color: pink">&#xf19b;</i> REFERENCES</button>
+
+
+            <button class="punch badaboom2" onclick="clicker()" style="color: orange;margin: 10px; padding: 5px; font-size: 20px" onmouseover="hoverbutton()" data-toggle="modal" data-target="#one_modal" data-backdrop="static"> <i class="el el-fw"  style="font-size: 25px; color: pink">&#xf17c;</i> CREDITS</button>
+
+<!--             <button class="punch badaboom2" onclick="clicker(),quit()" style="color: orange;margin: 10px; padding: 10px; font-size: 25px" onmouseover="hoverbutton()">EXIT</button> -->
+            <br><br>
+        </div>
+
+    </center>   
+</div>
+
+
+
+<!-- <div style="border: 5px ridge rgba(200,150,234,.5); padding: 10px; width: 75%;background: linear-gradient(45deg, rgba(247,153,52,.7) 0%, rgba(39,230,220,1) 100%); border-radius: 100px; margin-top: 10px; z-index: 2"> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    
+function hoverbutton(){
+    var hoverer = document.getElementById("hoverer");
+    hoverer.play();
+}
+
+function clicker(){
+    var clicker = document.getElementById("clickerer");
+    clicker.play();
+
+}
+    
+   var bgmuzic = document.getElementById("bgmx");
+
+</script>
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- MODAL FOR CREDITS -->
+
+
+
+<div class="modal fade" id="one_modal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" style="border-radius: 25px">
+<div class="modal-dialog modal-lg" role="document" style="border-radius: 25px">
+<div class="modal-content" style="border-radius: 25px">
+<div class="modal-body" style="border: 5px ridge rgba(200,150,234,.5); border-radius: 25px; padding: 2px; background-color: black">
+
+
+<center>
+
+
+
+    <h1 style="color: orange">SIM Prepared By</h1>
+
+      <div class="row" style="padding: 50px">
+        <div class="col-4">
+          <img src="credits/Picture8.png" width="100%">
+        </div>
+        <div class="col">
+          <br><br><br>
+          <p style="color: white; font-size: 25px"><b class="comic">Rosalinda DP. Anonas</b></p>
+          <p style="color: white; font-size: 20px">Senior High School Teacher</p>
+          <p style="color: white; font-size: 20px">Barretto National High School</p>
+        </div>
+    </div>
+
+
+
+    <br><br><br><br>
+
+    <h1 style="color: orange">Developers</h1>
+    
+    <div class="row" style="padding: 50px">
+        <div class="col-4">
+          <img src="credits/Picture7.png" width="100%">
+        </div>
+        <div class="col">
+          <br><br><br>
+          <p style="color: white; font-size: 25px"><b class="comic">Gemma Tapado</b></p>
+          <p style="color: white; font-size: 20px">Adviser</p>
+        </div>
+    </div>
+
+    <div class="row" style="padding: 50px">
+        <div class="col-4">
+          <img src="credits/Picture1.png" width="100%">
+        </div>
+        <div class="col">
+          <br><br><br>
+          <p style="color: white; font-size: 25px"><b class="comic">Crizon E. Parcia Jr.</b></p>
+          <p style="color: white; font-size: 20px">Project Manager | Programmer</p>
+        </div>
+    </div>
+
+        <div class="row" style="padding: 50px">
+        <div class="col-4">
+          <img src="credits/Picture2.png" width="100%">
+        </div>
+        <div class="col">
+          <br><br><br>
+          <p style="color: white; font-size: 25px"><b class="comic">Frenole Verse Eduvane</b></p>
+          <p style="color: white; font-size: 20px">Graphic Artist</p>
+        </div>
+    </div>
+
+    <div class="row" style="padding: 50px">
+        <div class="col-4">
+          <img src="credits/Picture3.png" width="100%">
+        </div>
+        <div class="col">
+          <br><br><br>
+          <p style="color: white; font-size: 25px"><b class="comic">Angelica Labor</b></p>
+          <p style="color: white; font-size: 20px">Document Writer</p>
+        </div>
+    </div>
+
+        <div class="row" style="padding: 50px">
+        <div class="col-4">
+          <img src="credits/Picture4.png" width="100%">
+        </div>
+        <div class="col">
+          <br><br><br>
+          <p style="color: white; font-size: 25px"><b class="comic">Calvin Estrada</b></p>
+          <p style="color: white; font-size: 20px">Document Writer</p>
+        </div>
+    </div>
+
+    <div class="row" style="padding: 50px">
+        <div class="col-4">
+          <img src="credits/Picture5.png" width="100%">
+        </div>
+        <div class="col">
+          <br><br><br>
+          <p style="color: white; font-size: 25px"><b class="comic">Ian Panado</b></p>
+          <p style="color: white; font-size: 20px">Document Writer</p>
+        </div>
+    </div>
+
+    <div class="row" style="padding: 50px">
+        <div class="col-4">
+          <img src="credits/Picture6.png" width="100%">
+        </div>
+        <div class="col">
+          <br><br><br>
+          <p style="color: white; font-size: 25px"><b class="comic">Karl Gonjoran</b></p>
+          <p style="color: white; font-size: 20px">Document Writer</p>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+<br><br><br><br>
+<center>
+    <h1 style="color: orange"> A Project Of</h1>
+    <img src="credits/dragons.png" width="90%">
+</center>
+
+
+
+
+
+
+
+<br><br>
+<center><button data-dismiss="modal" class="punch badaboom2" onclick="clicker()" onmouseover="hoverbutton()" style="color: orange"> <i class="el el-fw" style="color: pink">&#xf20d;</i> Cool </button></center>
+
+
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- MODAL FOR REFERENCES -->
+
+
+
+<div class="modal fade" id="two_modal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" style="border-radius: 25px">
+<div class="modal-dialog modal-lg" role="document" style="border-radius: 25px">
+<div class="modal-content" style="border-radius: 25px">
+<div class="modal-body" style="border: 5px ridge rgba(200,150,234,.5); border-radius: 25px; padding: 2px; background-color: black">
+
+
+<center>
+
+
+
+<br><br><br><br>
+    <h1 style="color: orange">References</h1>
+
+</center>
+  <div style="padding: 50px">
+    <p style="color: white; font-size: 20px">• The 4 Gems of Management, Edited & Co-Authored by O. Zorilla & N.A. Matias </p>
+    <p style="color: white; font-size: 20px">• A handbook, Association of Management and Industrial Engineers of America </p>
+    <p style="color: white; font-size: 20px">• People Management of the 21st Century by Sison, Payos & Zorilla </p>
+    <p style="color: white; font-size: 20px">• Enterprise Development Group Asia PACIPIC, ASPAC </p>
+    <p style="color: white; font-size: 20px">• The Business Growth Handbook by Barrow, Colin, et. Al </p>
+    <p style="color: white; font-size: 20px">• Business Dictionary.com </p>
+    <p style="color: white; font-size: 20px">• World Press.com </p>
+    <p style="color: white; font-size: 20px">• Personnel Management, Edwin B. Flippo </p>
+  </div>
+
+
+
+
+
+
+
+
+
+
+<br><br>
+<center><button data-dismiss="modal" class="punch badaboom2" onclick="clicker()" onmouseover="hoverbutton()" style="color: orange"> <i class="el el-fw" style="color: pink">&#xf20d;</i> Cool </button></center>
+
+
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- MODAL FOR REFERENCES -->
+
+
+
+<div class="modal fade" id="gensel_modal" tabindex="-1" role="dialog" aria-hidden="true"  style="border-radius: 50px">
+<div class="modal-dialog" role="document" style="border-radius: 50px">
+<div class="modal-content" style="border-radius: 50px">
+<div class="modal-body" style="border: 5px ridge rgba(200,150,234,.5); border-radius: 50px; padding: 2px;background: linear-gradient(45deg, rgba(247,153,52,.8) 0%, rgba(39,230,220,1) 100%);">
+
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="el el-fw">&#xf1db;</i></button>
+        </button>
+
+
+        <br><br>
+    <center>
+      <h1 class="badaboom2" style="color: orange">New Game</h1>
+
+      <br>
+
+      <i style="margin-bottom: 15px">Choose Gender</i>
+
+ 
+
+    <br><br>
+
+    <form style="margin-left: 50px">
+        <div class="row">
+            <div class="row" style="margin-left: 50px">
+                <input type="radio" name="gender" id="male" checked onclick="clicker()" onmouseover="hoverbutton()" >
+                <h5 class="comic" style="color: white; margin-left: 10px;">Male</h5>
+                <img src="assets/Hdude.png">
+            </div>
+
+            <div class="row" style="width: 15%"> </div>
+
+            <div class="row" style="margin-left: 50px">
+                <input type="radio" name="gender" id="female" onclick="clicker()" onmouseover="hoverbutton()" >
+                <h5 class="comic" style="color: white; margin-left: 10px;">Female</h5>
+                <img src="assets/Hsis.png">
+            </div>
+        </div>
+    </form>
+
+
+
+</center>
+
+<br><br>
+<center><button data-dismiss="modal" class="punch badaboom2" onclick="clicker(), proceed()" onmouseover="hoverbutton()" style="color: orange" > <i class="el el-fw" style="color: pink">&#xf20d;</i> READY </button></center>
+
+
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+<script>
+    var m = document.getElementById("male");
+    var f = document.getElementById("female");
+
+    function proceed(){
+
+        if (m.checked) { gender = 'dude'; }
+
+        else if (f.checked) { gender = 'sis'; }
+
+        else alert("Select a Gender");
+
+        document.location.replace('game1.html#ToF');
+
+        localStorage.setItem("Gender", gender );
+
+        setTimeout(play, 500);
+
+    }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- SPLASH SCREENS and electron quit remote ------------------------------------------------------------------------------------- -->
+
+<script type="text/javascript">
+
+
+    
+  function splash1(){
+
+        Swal({
+          title: '',
+          text: '',
+          imageUrl: 'assets/logos.png',
+          imageWidth: 600,
+          imageHeight: 200,
+          imageAlt: 'Custom image',
+          animation: false,
+          customClass: 'animated jello',
+          showConfirmButton: false,
+          timer: 5000,
+          allowEscapeKey:   false,
+          allowOutsideClick: false
+        });
+
+
+
+
+  }
+
+  function splash2(){
+
+
+        Swal({
+          title: '',
+          text: '',
+          imageUrl: 'assets/phaser.png',
+          imageWidth: 500,
+          imageHeight: 460,
+          imageAlt: 'Custom image',
+          animation: false,
+          customClass: 'animated zoomInDown',
+          showConfirmButton: false,
+          timer: 5000,
+          allowEscapeKey:   false,
+          allowOutsideClick: false
+        });
+
+        
+        document.location.replace('index.html#menu');
+
+  }
+
+function quit(){
+    const remote = require('electron').remote
+    let w = remote.getCurrentWindow()
+    w.close()
+}
+
+function learn(){ document.location.replace('lessons.html', { transition: "pop"}); }
+
+
+function play(){
+        bgmuzic.load();
+        document.location.replace('game1.html')
+}
+
+</script>
+
+
+
+
+
+
+
+
+<script src="vendor/typer.js"></script>
+<script crossorigin type="text/javascript" src="vendor/sweetalert2.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>if (window.module) module = window.module;</script>
+</body>
+</html>

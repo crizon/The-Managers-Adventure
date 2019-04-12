@@ -1,0 +1,1543 @@
+<!DOCTYPE html> 
+<html style="background-color: black">
+<head>
+	<title>The Manager's Adventure - Level 1</title>
+	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="phaser.js"></script>
+    <script src="vendor/jquery-1.11.1.min.js"></script>
+    <script src="vendor/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="vendor/sweetalert2.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animate.css">
+	<link rel="stylesheet" type="text/css" href="vendor/own.css">
+    <link rel="stylesheet" type="text/css" href="vendor/jquery.mobile-1.4.5.min.css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="vendor/elusive-icons.css">
+
+    <style type="text/css">
+
+	    ::-webkit-scrollbar { display: none; }
+
+        canvas {
+	        padding-left: 0;
+		    padding-right: 0;
+		    margin-left: auto;
+		    margin-right: auto;
+		    display: block;      }
+
+
+
+            html, body {margin: 0; height: 100%; overflow: hidden}
+
+    </style>
+
+<!-- TO DISABLE SELECTING -->
+            <style type="text/css">
+              
+            *
+            {
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            }
+
+            input
+            {
+            -webkit-user-select: auto !important;
+            -khtml-user-select: auto !important;
+            -moz-user-select: auto !important;
+            -ms-user-select: auto !important;
+            user-select: auto !important;
+            }
+
+            img { border: none; pointer-events: none}
+            
+
+            button:focus {
+              border: none;
+              outline: none;
+                }
+
+              input:focus {
+              border: none;
+              outline: none;
+                }
+
+            </style>
+</head>
+<body style="background-color: black" onload="letsgo()">
+
+    <iframe src="sounds/silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
+    <audio id="bgmx" autoplay loop src="sounds/bgm_1.m4a"> </audio>
+
+    <script type="text/javascript">
+    
+        function hoverbutton(){
+            var hoverer = new Audio("sounds/hover.mp3");
+            hoverer.play();
+        }
+
+        function clicker(){
+            var clicker = new Audio("sounds/click.mp3");
+            clicker.play();
+
+        }
+            
+        var bgmusic = document.getElementById("bgmx");
+        var boxSound = new Audio("sounds/box.mp3");
+        var ansSound = new Audio("sounds/answer.mp3");
+        var maliSound = new Audio("sounds/mali.mp3");
+        var tamaSound = new Audio("sounds/tama.mp3");
+        var finishSound = new Audio("sounds/finish.mp3");
+        finishSound.loop = true;
+
+        var walkSound = new Audio("sounds/footstep.mp3");
+        var jumpSound = new Audio("sounds/jump.mp3");
+
+
+    
+        function playAudioOnKeyDown(e) {
+            if (e.keyCode == 37 || e.keyCode == 39) {
+                walkSound.play();
+            }
+
+            if (e.keyCode == 32 && player.body.touching.down) {
+                jumpSound.play();
+            }
+
+        }
+        document.onkeydown = playAudioOnKeyDown;
+
+
+        function pauseAudioOnKeyUp(e) {
+            
+        }
+        document.onkeyup = pauseAudioOnKeyUp;
+
+
+    </script>
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div data-role="page" id="ToF" style="background-color: black">
+
+
+    <div class="row" id="ScoreBOARD" style="margin-left: 4px; width: 1010px; height: 45px; background-image: url(assets/wood.jpg); border: 5px ridge orange; overflow: hidden;">
+
+        <input type="text" class="comic" id="showME" readonly="true" style="color: rgba(255,255,255,1); border: none; font-size: 20pt; background-color: rgba(0,0,0,0); font-weight: bold;" value="SCORE: 0 / 100" >
+
+        <p class="comic" style="margin-top: 5px">Exercise 1 - True or False</p>
+
+        <button class="punch" onclick="howto(),clicker()" onmouseover="hoverbutton()"  style="margin-left: 115px; padding: 1px; font-size: 12px">How to Play</button>
+
+        <button class="punch" onclick="backto(),clicker()" onmouseover="hoverbutton()" style=";margin-left: 25px; padding: 1px; font-size: 12px">Back to Main Menu</button>
+
+    </div>
+
+
+    <div id="ToF_game" style="overflow: hidden;"></div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div data-role="page" id="Gems" style="background-color: black">
+
+
+    <div class="row" id="ScoreBOARD2" style="margin-left: 4px; width: 1010px; height: 45px; background-image: url(assets/wood.jpg); border: 5px ridge orange">
+
+        <input type="text" class="comic" id="showME2" readonly="true" style="color: rgba(255,255,255,1); border: none; font-size: 20pt; background-color: rgba(0,0,0,0); font-weight: bold;" value="SCORE: 0 / 100" >
+
+        <p class="comic" style="margin-top: 5px">Stage 2 - The 4 Gems</p>
+
+        <button class="punch" onclick="howto()" style="margin-left: 170px; padding: 1px; font-size: 12px">How to Play</button>
+
+        <button class="punch" onclick="backto()" style=";margin-left: 25px; padding: 1px; font-size: 12px">Back to Main Menu</button>
+
+    </div>
+
+    <div id="Gems_game"></div>
+
+
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"> 
+
+
+
+var gameOver;
+var player;
+var platforms;
+var cursors;
+var blocker;
+
+var Score = 0;
+
+var gender = localStorage.getItem("Gender");
+
+
+
+
+var Stage_1 = {
+
+
+
+preload: function()
+{
+    this.load.image('sky', 'assets/sky.png');
+    this.load.image('Xski', 'assets/ski.png');
+
+
+
+
+    this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 123, frameHeight: 250 }); //DITO BABAGUHIN KUNG ANONG SIZE ng per frame yung ilalagay dito, pixels
+
+
+    this.load.spritesheet('sis', 'assets/sis.png', { frameWidth: 123, frameHeight: 250 }); //DITO BABAGUHIN KUNG ANONG SIZE ng per frame yung ilalagay dito, pixels
+
+
+    this.load.image('Qbox', 'assets/boxQ.png');
+    this.load.image('Tbox', 'assets/boxT.png');
+    this.load.image('Fbox', 'assets/boxF.png');
+    this.load.image('arrowsign', 'assets/ArrowSign.png');
+
+
+    this.load.image('groundfloor', 'assets/boo.png');
+    this.load.image('particleshape', 'assets/star.png');
+
+    
+
+//    this.load.spritesheet('ball', 'assets/ball.png', { frameWidth: 40, frameHeight: 40 });
+
+    this.load.image('blocker', 'assets/blocker.png');
+
+    this.load.image('sign_1', 'assets/sign_1.png');
+    this.load.image('sign_2', 'assets/sign_2.png');
+    this.load.image('sign_3', 'assets/sign_3.png');
+    this.load.image('sign_4', 'assets/sign_4.png');
+    this.load.image('sign_5', 'assets/sign_5.png');
+
+    this.load.image('net', 'assets/net.png');
+
+
+},
+
+create: function()
+{
+
+    this.cameras.main.setBounds(50, -210, 4750 * 2, 960);
+
+
+  //  this.add.image(400, 300, 'sky');
+    for (x = 0; x < 5; x++)
+        {
+            this.add.image(950 * x, 0, 'sky').setOrigin(0);
+        }
+
+    this.add.image(5220,375, 'Xski');
+
+
+ 
+
+
+    blocker = this.physics.add.staticGroup();
+    blocker.create(50, 320, 'blocker');
+    blocker.create(4700,320, 'blocker');
+
+    blocker.create(25, 320, 'blocker');    
+    blocker.create(4725,320, 'blocker');
+
+    blocker.create(0, 320, 'blocker');    
+    blocker.create(4700,320, 'blocker');
+
+
+
+
+    platforms = this.physics.add.staticGroup();
+    platforms.create(2400, 635, 'groundfloor');
+
+// (X, Y)
+// (from right, from top)
+
+
+
+
+/*
+       var particles = this.add.particles('particleshape'); // initializer nang emitter ------------------------------------------------------
+
+
+        var emitter = particles.createEmitter({
+            //x: 0,
+            //y: { min: 100, max: 500 },
+            lifespan: 1000,
+            speedY: { min: -200, max: -400 },
+            speedX: {min:-100, max: 100},
+            scale: { start: 0.4, end: 0 },
+            quantity: 4,
+            blendMode: 'ADD'
+        });
+*/
+
+
+
+    
+
+
+
+	
+
+
+
+
+
+
+
+    // The player and its settings+
+
+    player = this.physics.add.sprite(550, 400, gender);
+    player.setBounce(0.2);
+  //  player.setCollideWorldBounds(true);
+
+    //  Our player animations, turning, walking left and walking right.
+    this.anims.create({
+        key: 'left',
+        frames: this.anims.generateFrameNumbers(gender, { start: 4, end: 6 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'turn',
+        frames: [ { key: gender, frame: 3 } ],
+        frameRate: 20
+    });
+
+    this.anims.create({
+        key: 'right',
+        frames: this.anims.generateFrameNumbers(gender, { start: 0, end: 2 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+/*    this.anims.create({
+        key: 'jump',
+        frames: [{key: gender, frame: 3 }],
+        frameRate: 10,
+    });*/
+
+
+
+
+
+
+
+
+
+//pwesto ng ginawa mong ball
+  //  ball = this.physics.add.sprite(200, 500, 'ball');
+ //   ball.setBounce(1);
+ //   ball.setMass(2);
+ //   ball.setVelocity(0,-200);
+
+
+
+
+//dito yung pampa target ng frames sa ginawa mong spritesheets -----------------------------------------------------
+/*this.anims.create({
+        key: 'galaw',
+        frames: this.anims.generateFrameNumbers('ball', { start: 0, end: 4 }),
+        frameRate: 10,
+        repeat: -1
+    });*/
+
+
+
+
+//   emitter.startFollow(ball); // para magstart na yung emitter ------------------------------------------------------
+
+
+
+
+
+    //  Input Events
+    cursors = this.input.keyboard.createCursorKeys();
+
+    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+
+
+
+
+
+
+    //  Collide the player and the stars with the platforms
+    this.physics.add.collider(player, platforms);
+
+  //  this.physics.add.collider(ball, platforms);
+
+   // this.physics.add.collider(ball, player);
+
+    this.physics.add.collider(player, blocker);
+
+   // this.physics.add.collider(ball, blocker);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            sign_1 = this.physics.add.staticGroup();
+            sign_1.create(100, 540, 'sign_1');
+
+            sign_2 = this.physics.add.staticGroup();
+            sign_2.create(1100, 540, 'sign_2');
+
+            sign_3 = this.physics.add.staticGroup();
+            sign_3.create(2100, 540, 'sign_3');
+
+            sign_4 = this.physics.add.staticGroup();
+            sign_4.create(3100, 540, 'sign_4');
+
+            sign_5 = this.physics.add.staticGroup();
+            sign_5.create(4100, 540, 'sign_5');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            boxQ_1 = this.physics.add.staticGroup();
+            boxQ_1.create(550, 220, 'Qbox');  
+            this.physics.add.collider(player, boxQ_1, popQ_1, null, this);
+
+
+            boxQ_2 = this.physics.add.sprite(1550, 220, 'Qbox');
+            boxQ_2.body.immovable = true;
+            boxQ_2.body.allowGravity = false;
+            this.physics.add.collider(player, boxQ_2, popQ_2, null, this);
+
+
+            boxQ_3 = this.physics.add.staticGroup();
+            boxQ_3.create(2550, 220, 'Qbox');  
+            this.physics.add.collider(player, boxQ_3, popQ_3, null, this);
+
+
+            boxQ_4 = this.physics.add.staticGroup();
+            boxQ_4.create(3550, 220, 'Qbox');  
+            this.physics.add.collider(player, boxQ_4, popQ_4, null, this);
+
+
+            boxQ_5 = this.physics.add.staticGroup();
+            boxQ_5.create(4250, 220, 'Qbox');  
+            this.physics.add.collider(player, boxQ_5, popQ_5, null, this);
+
+            
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+  //  this.physics.add.collider(ball, boxQ_1);
+
+    
+
+
+    this.cameras.main.startFollow(player, true);
+    this.cameras.main.setZoom();
+
+},
+
+
+
+
+
+
+update: function()
+{
+    if (gameOver)
+    {
+        return;
+    }
+
+    if (cursors.left.isDown)
+    {
+        player.setVelocityX(-210);
+
+        player.anims.play('left', true);
+    }
+    else if (cursors.right.isDown)
+    {
+        player.setVelocityX(210);
+
+        player.anims.play('right', true);
+    }
+    else
+    {
+        player.setVelocityX(0);
+        player.anims.play('turn');
+    }
+
+    if (cursors.space.isDown && player.body.touching.down)
+    {
+        player.setVelocityY(-320);
+        
+    }
+
+/*    if (cursors.space.isDown)
+    {player.anims.play('jump', true);}*/
+
+
+/*if (ball.body.touching.down)
+    {
+        music.play();
+        ball.anims.play('galaw', true);
+    }*/
+
+
+    //DITO ilalagay yung pag execute ng movements dahil ito yung update update --------------------------------------
+
+    
+
+    
+
+},
+
+
+
+
+
+
+destroy: function(){
+    scene.scene.remove('1ststage');
+    this.blocker.destroy();
+    this.platforms.destroy();
+    this.player.destroy();
+    this.anims.destroy();
+    this.cursors.destroy();
+    this.physics.destroy();
+    this.sign_1.destroy();
+    this.sign_2.destroy();
+    this.sign_3.destroy();
+    this.sign_4.destroy();
+    this.sign_5.destroy();
+    this.boxQ_1.destroy();
+    this.boxQ_2.destroy();
+    this.boxQ_3.destroy();
+    this.boxQ_4.destroy();
+    this.boxQ_5.destroy();
+    this.cameras.destroy();
+}
+
+
+
+} //end of Stage_1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var config = {
+    type: Phaser.AUTO,
+    width: 1004,
+    height: 750,
+    parent: 'ToF_game',
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 600 }, //GRAVITYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+            debug: false
+        }
+    },
+/*    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }*/
+};
+
+
+var game = new Phaser.Game(config);
+
+game.scene.add('1ststage', Stage_1);
+
+
+
+
+
+
+function letsgo(){ game.scene.start('1ststage'); howto(); }
+
+
+//Stage_1 Executer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function popQ_1(player,boxQ_1)
+{
+    boxSound.play();
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    boxQ_1.destroy();
+
+    Question_1 = this.add.text(150, 16, 'TRUE or FALSE \n Management is a function that directs \n and coordinates the efforts of the people.', { fontSize: '32px', fill: '#000', align: 'center' });
+
+
+
+    boxT_1 = this.physics.add.sprite(300, 220, 'Tbox');
+    boxT_1.body.immovable = true;
+    boxT_1.body.allowGravity = false;
+
+
+    boxF_1 = this.physics.add.sprite(750, 220, 'Fbox');
+    boxF_1.body.immovable = true;
+    boxF_1.body.allowGravity = false;
+
+    this.physics.add.collider(player, boxT_1, choiceTRUE_1, null, this);
+
+    this.physics.add.collider(player, boxF_1, choiceFALSE_1, null, this);
+
+   // this.physics.add.collider(ball, boxF_1);
+   // this.physics.add.collider(ball, boxT_1);
+
+}
+
+
+
+
+
+
+
+
+
+function choiceTRUE_1 (player, boxT_1)
+{
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    correct();
+
+    boxT_1.destroy();
+    boxF_1.destroy();
+    Question_1.destroy();
+    
+
+    ArrowSign1 = this.physics.add.staticGroup();
+    ArrowSign1.create(500, 210, 'arrowsign');
+} 
+
+
+
+
+function choiceFALSE_1 (player, boxF_1)
+{
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    incorrect();
+
+    boxF_1.destroy();
+    boxT_1.destroy();
+    Question_1.destroy();
+
+
+    ArrowSign1 = this.physics.add.staticGroup(); 
+    ArrowSign1.create(500, 210, 'arrowsign');
+
+
+}
+
+
+
+/*     platforms.create(950, 555, 'step1');
+    platforms.create(1035, 555, 'step1');
+    platforms.create(1120, 555, 'step1');
+
+    platforms.create(1035, 470, 'step2');
+    platforms.create(1120, 470, 'step2');
+
+    platforms.create(1120, 385, 'step2');
+*/
+
+
+
+
+
+
+
+
+
+function popQ_2(player,boxQ_2)
+{
+    boxSound.play();
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    boxQ_2.destroy();
+
+    Question_2 = this.add.text(1150, 16, 'TRUE or FALSE \n It is the people in the organization \n that get the work done.', { fontSize: '32px', fill: '#000', align: 'center' });
+
+
+
+    boxT_2 = this.physics.add.sprite(1300, 220, 'Tbox');
+    boxT_2.body.immovable = true;
+    boxT_2.body.allowGravity = false;
+
+
+    boxF_2 = this.physics.add.sprite(1750, 220, 'Fbox');
+    boxF_2.body.immovable = true;
+    boxF_2.body.allowGravity = false;
+
+    this.physics.add.collider(player, boxT_2, choiceTRUE_2, null, this);
+
+    this.physics.add.collider(player, boxF_2, choiceFALSE_2, null, this);
+
+   // this.physics.add.collider(ball, boxF_2);
+  //  this.physics.add.collider(ball, boxT_2);
+
+}
+
+
+
+
+
+function choiceTRUE_2 (player, boxT_2)
+{
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    correct();
+
+    boxT_2.destroy();
+    boxF_2.destroy();
+    Question_2.destroy();
+    
+
+    ArrowSign2 = this.physics.add.staticGroup();
+    ArrowSign2.create(1500, 210, 'arrowsign');
+} 
+
+
+
+
+function choiceFALSE_2 (player, boxF_2)
+{
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    incorrect();
+
+    boxF_2.destroy();
+    boxT_2.destroy();
+    Question_2.destroy();
+
+
+    ArrowSign2 = this.physics.add.staticGroup(); 
+    ArrowSign2.create(1500, 210, 'arrowsign');
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function popQ_3(player,boxQ_3)
+{   
+    boxSound.play();
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    boxQ_3.destroy();
+
+    Question_3 = this.add.text(2150, 16, 'TRUE or FALSE \n The person managing the people could be \n the owner-proprietor of the small business.', { fontSize: '32px', fill: '#000', align: 'center' });
+
+
+
+    boxT_3 = this.physics.add.sprite(2300, 220, 'Tbox');
+    boxT_3.body.immovable = true;
+    boxT_3.body.allowGravity = false;
+
+
+    boxF_3 = this.physics.add.sprite(2750, 220, 'Fbox');
+    boxF_3.body.immovable = true;
+    boxF_3.body.allowGravity = false;
+
+    this.physics.add.collider(player, boxT_3, choiceTRUE_3, null, this);
+
+    this.physics.add.collider(player, boxF_3, choiceFALSE_3, null, this);
+
+   // this.physics.add.collider(ball, boxF_3);
+  //  this.physics.add.collider(ball, boxT_3);
+
+}
+
+
+
+
+
+function choiceTRUE_3 (player, boxT_3)
+{
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    correct();
+
+    boxT_3.destroy();
+    boxF_3.destroy();
+    Question_3.destroy();
+    
+
+    ArrowSign3 = this.physics.add.staticGroup();
+    ArrowSign3.create(2500, 210, 'arrowsign');
+} 
+
+
+
+
+function choiceFALSE_3 (player, boxF_3)
+{
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    incorrect();
+
+    boxF_3.destroy();
+    boxT_3.destroy();
+    Question_3.destroy();
+
+
+    ArrowSign3 = this.physics.add.staticGroup(); 
+    ArrowSign3.create(2500, 210, 'arrowsign');
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function popQ_4(player,boxQ_4)
+{
+    boxSound.play();
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    boxQ_4.destroy();
+
+    Question_4 = this.add.text(3150, 16, 'TRUE or FALSE \n The simpliest definition of Management is \n getting things done through people.', { fontSize: '32px', fill: '#000', align: 'center' });
+
+
+
+    boxT_4 = this.physics.add.sprite(3300, 220, 'Tbox');
+    boxT_4.body.immovable = true;
+    boxT_4.body.allowGravity = false;
+
+
+    boxF_4 = this.physics.add.sprite(3750, 220, 'Fbox');
+    boxF_4.body.immovable = true;
+    boxF_4.body.allowGravity = false;
+
+    this.physics.add.collider(player, boxT_4, choiceTRUE_4, null, this);
+
+    this.physics.add.collider(player, boxF_4, choiceFALSE_4, null, this);
+
+   // this.physics.add.collider(ball, boxF_4);
+  //  this.physics.add.collider(ball, boxT_4);
+
+}
+
+
+
+
+
+function choiceTRUE_4 (player, boxT_4)
+{
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    correct();
+
+    boxT_4.destroy();
+    boxF_4.destroy();
+    Question_4.destroy();
+    
+
+    ArrowSign4 = this.physics.add.staticGroup();
+    ArrowSign4.create(3500, 210, 'arrowsign');
+} 
+
+
+
+
+function choiceFALSE_4 (player, boxF_4)
+{
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    incorrect();
+
+    boxF_4.destroy();
+    boxT_4.destroy();
+    Question_4.destroy();
+
+
+    ArrowSign4 = this.physics.add.staticGroup(); 
+    ArrowSign4.create(3500, 210, 'arrowsign');
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function popQ_5(player,boxQ_5)
+{
+    boxSound.play();
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    boxQ_5.destroy();
+
+    Question_5 = this.add.text(3850, 16, 'TRUE or FALSE \n A manager in a working place is \n not responsible for a lot of duties.', { fontSize: '32px', fill: '#000', align: 'center' });
+
+
+
+    boxT_5 = this.physics.add.sprite(4000, 220, 'Tbox');
+    boxT_5.body.immovable = true;
+    boxT_5.body.allowGravity = false;
+
+
+    boxF_5 = this.physics.add.sprite(4450, 220, 'Fbox');
+    boxF_5.body.immovable = true;
+    boxF_5.body.allowGravity = false;
+
+    this.physics.add.collider(player, boxT_5, choiceTRUE_5, null, this);
+
+    this.physics.add.collider(player, boxF_5, choiceFALSE_5, null, this);
+
+   // this.physics.add.collider(ball, boxF_5);
+  //  this.physics.add.collider(ball, boxT_5);
+
+}
+
+
+
+
+
+function choiceTRUE_5 (player, boxT_5)
+{
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    incorrect();
+
+    boxT_5.destroy();
+    boxF_5.destroy();
+    Question_5.destroy();
+    
+    setTimeout(finishNa, 1500);
+} 
+
+
+
+
+function choiceFALSE_5 (player, boxF_5)
+{
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    correct();
+
+    boxF_5.destroy();
+    boxT_5.destroy();
+    Question_5.destroy();
+
+
+    
+
+    setTimeout(finishNa, 1500);
+}
+
+
+
+
+
+//net = this.physics.add.staticGroup(); 
+//    net.create(4500, 410, 'net');
+
+
+
+
+
+
+
+
+</script>
+
+
+            
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    //ANSWER FEEDBACK------------------------------------------------
+
+
+    function correct(){
+
+        ansSound.play();
+        tamaSound.play();
+
+        Swal({
+            title: '',
+            width: 800,
+            padding: '3em',
+            background: '',
+            backdrop: `
+                rgba(0,0,0,0)
+                url("")
+                center
+                no-repeat`,
+            imageUrl: 'assets/correct.png',
+            imageWidth: 545,
+            imageHeight: 500,
+            imageAlt: 'Custom image',
+            animation: false,
+            customClass: 'animated jello',
+            showConfirmButton: false,
+            timer: 1500,
+            allowEscapeKey:   false,
+            allowOutsideClick: false
+        });
+
+        Score = Score + 20;
+        localStorage.setItem('Score1', Score);
+        document.getElementById("showME").value = 'SCORE: ' + Score + ' /100' ;
+
+        localStorage.setItem('Score2', '0');
+        localStorage.setItem('Score3', '0');
+        localStorage.setItem('Score4', '0');
+        localStorage.setItem('Score5', '0');
+
+    }
+
+
+
+
+
+    function incorrect(){
+
+        ansSound.play();
+        maliSound.play();
+
+        Swal({
+            title: '',
+            width: 800,
+            padding: '3em',
+            background: '',
+            backdrop: `
+                rgba(0,0,0,0)
+                url("")
+                center
+                no-repeat`,
+            imageUrl: 'assets/incorrect.png',
+            imageWidth: 545,
+            imageHeight: 500,
+            imageAlt: 'Custom image',
+            animation: false,
+            customClass: 'animated jello',
+            showConfirmButton: false,
+            timer: 1500,
+            allowEscapeKey:   false,
+            allowOutsideClick: false
+        });
+    }
+
+
+
+
+
+   function finishNa(){
+
+    finishSound.play();
+    bgmusic.pause();
+    
+
+    player.anims.play('turn');
+    gameOver = true;
+
+    document.getElementById("finalscore").value = Score ;
+    $('#endscore').modal('toggle')
+
+    //var crzn = localStorage.getItem("Score");
+    //alert(crzn);
+
+
+    this.blocker.destroy();
+    this.platforms.destroy();
+    this.player.destroy();
+    //this.anims.destroy();
+    //this.cursors.destroy();
+    //this.physics.destroy();
+    this.sign_1.destroy();
+    this.sign_2.destroy();
+    this.sign_3.destroy();
+    this.sign_4.destroy();
+    this.sign_5.destroy();
+    this.boxQ_1.destroy();
+    this.boxQ_2.destroy();
+    this.boxQ_3.destroy();
+    this.boxQ_4.destroy();
+    this.boxQ_5.destroy();
+   // this.cameras.destroy();
+
+    this.game.destroy();
+    
+
+   }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function howto(){
+            $('#how').modal('toggle')
+
+        var loader = document.getElementById("loader");
+        var button = document.getElementById("Okay");
+        setTimeout(OkayButton, 5000);
+
+        function OkayButton(){
+
+            loader.hidden = "hidden";
+            button.hidden = "";
+        }
+    }
+
+
+
+    function backto(){
+        document.location.assign('index.html#menu')
+    }
+
+
+
+    function to2nd(){
+
+        $('#endscore').modal('toggle');
+
+        setTimeout(hey,1000);
+
+        function hey(){document.location.replace('game2.html');}
+        
+    }
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="how" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="false" style="background-color: linear-gradient(to bottom, #17f0dd, #00b6d4, #007cbc, #00428d, #17054c); background-image: url(assets/bgp.png); background-repeat: no-repeat; background-size: 100%; border: none; overflow: hidden;">
+
+        <br>
+        <center>
+            <p class="badaboom2" style="font-size: 30px; padding: -0px; margin: 0px; color: orange; "> Activity Card - Exercise 1</p>
+            <p class="badaboom2" style="font-size: 80px; padding: -0px; margin: 0px; color: orange; "> true or false</p>
+
+            
+        </center>
+        <br>
+        <img src="assets_2/character2.png" width="20%" style="left: 0px; bottom: 0px; position: fixed; z-index: 1">    
+        <img src="assets/how.png" width="75%" style="right: 90px; bottom: 35px; position: fixed;">
+ 
+
+<div class="modal-dialog modal-lg" role="document" style="background-color: transparent; border: none padding: 0px; margin: 0px;">
+<div class="modal-content" style="background-color: transparent; border: none; padding: 0px; margin: 0px">
+<div class="modal-body" style="background-color: transparent; border: none; padding: 0px; margin: 0px">
+
+
+
+</div>
+</div>
+</div>
+    <button onclick="clicker()" onmouseover="hoverbutton()" id="Okay" hidden="hidden" data-dismiss="modal" class="punch badaboom2" style="right: 90px; bottom: -5px; position: fixed;color: orange"> <i class="el el-fw" style="color: pink">&#xf20d;</i> Got it! </button>
+    <img id="loader" src="assets_4/load.gif" style="width: 7%; right: 120px; bottom: -5px; position: fixed">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="endscore" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="false" style="border: none; overflow: hidden; background-color: rgba(25,25,25,0.9); padding-top:75px">
+<div class="modal-dialog modal-lg" role="document" style="background-color: transparent; border: none;">
+
+<div class="modal-content" style="border: 10px ridge orange; background:linear-gradient(to bottom, #e6fff5, #bfffe5, #80ffcd, #40ffb3, #00ff99); border-radius: 50px">
+
+<div class="modal-body" style="padding: 20px; background-size: 100%; background-image: url(assets/grats.png); border-radius: 25px">
+
+
+    <center>
+
+        <br>
+        <h1 class="badaboom2" style="color: orange; font-size: 45px">Exercise 1 Completed!</h1>
+        <br>
+        <br>
+        <h3 class="comic"> Your Score is:</h3>
+        <input type="text" id="finalscore" class="badaboom2" readonly="true" style="color: rgba(255,255,255,1); font-size: 50pt; background-color: rgba(0,0,0,0); font-weight: bold; text-align: center;width: 250px; border: none">
+        <br>
+
+        <button onclick="clicker(), backto()" onmouseover="hoverbutton()" class="punch badaboom2" style="color: orange"> <i class="el el-fw" style="color: pink">&#xf189;</i>Home</button>
+
+        <i style="color: transparent;">crzn</i>
+
+        <button onclick="clicker(),window.location.reload()" onmouseover="hoverbutton()" class="punch badaboom2" style="color: orange"> <i class="el el-fw" style="color: pink">&#xf1df;</i>Retake</button>
+
+        <i style="color: transparent;">crzn</i>
+
+        <button onclick="to2nd(), clicker()" onmouseover="hoverbutton()" class="punch badaboom2" style="color: orange"> <i class="el el-fw" style="color: pink">&#xf127;</i>Next</button>
+
+    </center>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script crossorigin type="text/javascript" src="vendor/sweetalert2.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>if (window.module) module = window.module;</script>
+</body>
+</html>

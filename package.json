@@ -1,0 +1,12 @@
+{
+  "name": "crizon",
+  "version": "1.0.0",
+  "description": "A Strategic Intervention Material for Management by CRZN.IO and FORINORU",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^3.0.7"
+  }
+}

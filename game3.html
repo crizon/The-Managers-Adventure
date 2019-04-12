@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html style="background-color: black">
+<head>
+	<title>The Manager's Adventure - Level 3</title>
+	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="phaser.js"></script>
+    <script src="vendor/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="vendor/sweetalert2.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animate.css">
+	<link rel="stylesheet" type="text/css" href="vendor/own.css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="vendor/elusive-icons.css">
+
+    <style type="text/css">
+
+	    ::-webkit-scrollbar { display: none; }
+
+        canvas {
+	        padding-left: 0;
+		    padding-right: 0;
+		    margin-left: auto;
+		    margin-right: auto;
+		    display: block;}
+
+
+
+            html, body {margin: 0; height: 100%; overflow: hidden}
+
+    </style>
+
+<!-- TO DISABLE SELECTING -->
+            <style type="text/css">
+              
+            *
+            {
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            }
+
+            input
+            {
+            -webkit-user-select: auto !important;
+            -khtml-user-select: auto !important;
+            -moz-user-select: auto !important;
+            -ms-user-select: auto !important;
+            user-select: auto !important;
+            }
+
+            img { border: none; pointer-events: none}
+            
+
+            button:focus {
+              border: none;
+              outline: none;
+                }
+
+              input:focus {
+              border: none;
+              outline: none;
+                }
+
+            </style>
+</head>
+<body style="background-color: black" onload="XXXletsgo()">
+
+    <iframe src="sounds/silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
+    <audio id="XXXbgm" autoplay loop src="sounds/bgm_3.mp3" type="audio/mp3"> </audio>
+
+    <script type="text/javascript">
+    
+        function XXXhoverbutton(){
+            var XXXhoverer = new Audio("sounds/hover.mp3");
+            XXXhoverer.play();
+        }
+
+        function XXXclicker(){
+            var XXXclicker = new Audio("sounds/click.mp3");
+            XXXclicker.play();
+
+        }
+            
+        var XXXbgmusic = document.getElementById("XXXbgm");
+        var XXXboxSound = new Audio("sounds/box.mp3");
+        var XXXansSound = new Audio("sounds/answer.mp3");
+        var XXXmaliSound = new Audio("sounds/mali.mp3");
+        var XXXtamaSound = new Audio("sounds/tama.mp3");
+        var XXXfinishSound = new Audio("sounds/finish.mp3");
+        XXXfinishSound.loop = true;
+
+        var XXXwalkSound = new Audio("sounds/moonwalk.mp3");
+        var XXXjumpSound = new Audio("sounds/jump.mp3");
+
+
+    
+        function playAudioOnKeyDown(e) {
+            if (e.keyCode == 37 || e.keyCode == 39) {
+                XXXwalkSound.play();
+            }
+
+            if (e.keyCode == 32 && XXXplayer.body.touching.down) {
+                XXXjumpSound.play();
+            }
+
+        }
+        document.onkeydown = playAudioOnKeyDown;
+
+
+        function pauseAudioOnKeyUp(e) {
+            
+        }
+        document.onkeyup = pauseAudioOnKeyUp;
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+<div style="background-color: black">
+
+
+    <div class="row" id="XXXScoreBOARD" style="margin-left: 4px; width: 1010px; height: 45px; background-image: url(assets/wood.jpg); border: 5px ridge orange; overflow: hidden;">
+
+        <input type="text" class="comic" id="XXXshowME" readonly="true" style="color: rgba(255,255,255,1); border: none; font-size: 20pt; background-color: rgba(0,0,0,0); font-weight: bold;" value="SCORE: 0 / 100" >
+
+        <p class="comic" style="margin-top: 5px">Exercise 3 - The Four Gems II</p>
+
+        <button class="punch" onclick="XXXhowto(), XXXclicker()" onmouseover="XXXhoverbutton()" style="margin-left: 100px; padding: 1px; font-size: 12px" data-toggle="modal" data-target="#how2" data-backdrop="static" >How to Play</button>
+
+        <button class="punch" onclick="XXXbackto(), XXXclicker()" onmouseover="XXXhoverbutton()" style=";margin-left: 25px; padding: 1px; font-size: 12px">Back to Main Menu</button>
+
+    </div>
+
+
+    <div id="XXXgems_game2"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"> 
+
+
+
+
+var XXXgameOver;
+var XXXplayer;
+var XXXplatforms;
+var XXXcursors;
+var XXXblocker;
+
+var XXXscore = 0;
+
+var XXXgender = localStorage.getItem("Gender");
+var style = { font: "12px Arial", fill: "white"};
+
+
+
+
+var Stage_3 = {
+
+
+
+preload: function()
+{
+    this.load.image('XXXsky', 'assets_4/sky.png');
+    this.load.image('XXXski', 'assets_4/ski.png');
+
+
+    this.load.spritesheet('dude', 'assets_5/dude.png', { frameWidth: 156.28, frameHeight: 250 }); //DITO BABAGUHIN KUNG ANONG SIZE ng per frame yung ilalagay dito, pixels
+
+
+    this.load.spritesheet('sis', 'assets_5/sis.png', { frameWidth: 157, frameHeight: 250 }); //DITO BABAGUHIN KUNG ANONG SIZE ng per frame yung ilalagay dito, pixels
+
+
+  //  this.load.image('XXXQbox', 'assets_4/boxQ.png');
+
+    this.load.image('XXXarrowsign', 'assets_4/ArrowSign.png');
+
+
+    this.load.image('XXXgroundfloor', 'assets_4/boo.png');
+    this.load.image('XXXtopfloor', 'assets_4/buu.png');
+
+
+    this.load.image('XXXparticleshape', 'assets/star.png');
+    this.load.image('XXXmist', 'assets_4/mist.png');
+
+
+    
+
+//    this.load.spritesheet('ball', 'assets/ball.png', { frameWidth: 40, frameHeight: 40 });
+
+
+    this.load.image('XXXblocker', 'assets_4/blocker.png');
+
+    this.load.image('XXXsign_1', 'assets_4/sign_1.png');
+    this.load.image('XXXsign_2', 'assets_4/sign_2.png');
+    this.load.image('XXXsign_3', 'assets_4/sign_3.png');
+    this.load.image('XXXsign_4', 'assets_4/sign_4.png');
+    this.load.image('XXXsign_5', 'assets_4/sign_5.png');
+
+    this.load.image('XXXnet', 'assets/net.png');
+
+    this.load.spritesheet('XXXgems','assets_4/XXXgems.png', { frameWidth: 44, frameHeight: 32 });
+
+    this.load.spritesheet('XXXegg','assets_4/boxQ.png', { frameWidth: 106, frameHeight: 105 });
+
+    this.load.spritesheet('XXXastro','assets_4/astro.png', { frameWidth: 225, frameHeight: 300 });
+
+
+},
+
+create: function()
+{
+    //this.cameras.main.setBackgroundColor('#016dc5')
+    this.cameras.main.setBounds(50, -210, 4750 * 2, 960);
+
+
+  //  this.add.image(400, 300, 'sky');
+    for (x = 0; x < 5; x++)
+        {
+            this.add.image(1224 * x, 0, 'XXXsky').setOrigin(0);
+        }
+
+
+    this.add.image(5520,375, 'XXXski');
+
+ 
+
+
+    XXXblocker = this.physics.add.staticGroup();
+    XXXblocker.create(50, 320, 'XXXblocker');
+    XXXblocker.create(17, 320, 'XXXblocker');    
+    XXXblocker.create(0, 320, 'XXXblocker');
+
+    XXXblocker.create(5060,320, 'XXXblocker');
+    //XXXblocker.create(5017,320, 'XXXblocker');
+
+
+
+
+    XXXplatforms = this.physics.add.staticGroup();
+    XXXplatforms.create(2400, 635, 'XXXgroundfloor');
+
+    XXXplatforms.create(2400, -135, 'XXXtopfloor');
+
+
+
+ 
+
+// (XXX, Y)
+// (from right, from top)
+
+
+
+
+/*
+       var particles = this.add.particles('particleshape'); // initializer nang emitter ------------------------------------------------------
+
+
+        var emitter = particles.createEmitter({
+            //x: 0,
+            //y: { min: 100, max: 500 },
+            lifespan: 1000,
+            speedY: { min: -200, max: -400 },
+            speedXXX: {min:-100, max: 100},
+            scale: { start: 0.4, end: 0 },
+            quantity: 4,
+            blendMode: 'ADD'
+        });
+*/
+
+
+
+    
+
+
+
+	
+
+
+
+
+
+
+
+    // The player and its settings+
+
+    XXXplayer = this.physics.add.sprite(250, 400, XXXgender);
+    XXXplayer.setBounce(.5);
+  //  player.setCollideWorldBounds(true);
+
+    //  Our player animations, turning, walking left and walking right.
+    this.anims.create({
+        key: 'XXXleft',
+        frames: this.anims.generateFrameNumbers(XXXgender, { start: 4, end: 6 }),
+        frameRate: 3,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'XXXturn',
+        frames: [ { key: XXXgender, frame: 3 } ],
+        frameRate: 20
+    });
+
+    this.anims.create({
+        key: 'XXXright',
+        frames: this.anims.generateFrameNumbers(XXXgender, { start: 0, end: 2 }),
+        frameRate: 3,
+        repeat: -1
+    });
+
+   this.anims.create({
+        key: 'XXXredGem',
+        frames: this.anims.generateFrameNumbers('XXXgems', { start: 4, end: 7 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+   this.anims.create({
+        key: 'XXXyellowGem',
+        frames: this.anims.generateFrameNumbers('XXXgems', { start: 12, end: 15 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+   this.anims.create({
+        key: 'XXXgreenGem',
+        frames: this.anims.generateFrameNumbers('XXXgems', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+   this.anims.create({
+        key: 'XXXvioletGem',
+        frames: this.anims.generateFrameNumbers('XXXgems', { start: 8, end: 11 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+   this.anims.create({
+        key: 'XXXeggs',
+        frames: this.anims.generateFrameNumbers('XXXegg', { start: 0, end: 15 }),
+        frameRate: 35,
+        repeat: -1
+    });
+
+   this.anims.create({
+        key: 'XXXastro',
+        frames: this.anims.generateFrameNumbers('XXXastro', { start: 0, end: 2 }),
+        frameRate: 5,
+        repeat: -1
+    });
+
+   this.anims.create({
+        key: 'XXXwarn',
+        frames: this.anims.generateFrameNumbers('XXXwarn', { start: 0, end: 6 }),
+        frameRate: 20,
+        repeat: -1
+    });
+
+
+
+
+
+
+
+
+
+//pwesto ng ginawa mong ball
+  //  ball = this.physics.add.sprite(200, 500, 'ball');
+ //   ball.setBounce(1);
+ //   ball.setMass(2);
+ //   ball.setVelocity(0,-200);
+
+
+
+
+//dito yung pampa target ng frames sa ginawa mong spritesheets -----------------------------------------------------
+/*this.anims.create({
+        key: 'galaw',
+        frames: this.anims.generateFrameNumbers('ball', { start: 0, end: 4 }),
+        frameRate: 10,
+        repeat: -1
+    });*/
+
+
+
+
+//   emitter.startFollow(ball); // para magstart na yung emitter ------------------------------------------------------
+
+
+
+
+
+    //  Input Events
+    XXXcursors = this.input.keyboard.createCursorKeys();
+
+    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+
+
+
+
+
+
+    //  Collide the player and the stars with the platforms
+    this.physics.add.collider(XXXplayer, XXXplatforms);
+
+  //  this.physics.add.collider(ball, platforms);
+
+   // this.physics.add.collider(ball, player);
+
+    this.physics.add.collider(XXXplayer, XXXblocker);
+
+   // this.physics.add.collider(ball, blocker);
+
+
+
+
+
+
+
+
+
+
+
+            XXXmist = this.physics.add.staticGroup();
+            XXXmist.create(2450, 520, 'XXXmist');
+
+
+            XXXsign_1 = this.physics.add.staticGroup();
+            XXXsign_1.create(170, 520, 'XXXsign_1');
+
+            XXXsign_2 = this.physics.add.staticGroup();
+            XXXsign_2.create(1100, 520, 'XXXsign_2');
+
+            XXXsign_3 = this.physics.add.staticGroup();
+            XXXsign_3.create(2100, 520, 'XXXsign_3');
+
+            XXXsign_4 = this.physics.add.staticGroup();
+            XXXsign_4.create(3100, 520, 'XXXsign_4');
+
+            XXXsign_5 = this.physics.add.staticGroup();
+            XXXsign_5.create(4100, 520, 'XXXsign_5');
+
+
+
+
+
+
+
+
+
+
+
+
+
+            XXXboxQ_1 = this.physics.add.sprite(600, 220, 'XXXegg');
+            XXXboxQ_1.body.immovable = true;
+            XXXboxQ_1.body.allowGravity = false;
+            XXXboxQ_1.anims.play('XXXeggs', true);
+            XXXboxQ_1.setTint(0xE06666);
+
+
+            XXXboxQ_2 = this.physics.add.sprite(1550, 220, 'XXXegg');
+            XXXboxQ_2.body.immovable = true;
+            XXXboxQ_2.body.allowGravity = false;
+            XXXboxQ_2.anims.play('XXXeggs', true);
+            XXXboxQ_2.setTint(0x00ff00);
+
+
+            XXXboxQ_3 = this.physics.add.sprite(2580, 220, 'XXXegg');
+            XXXboxQ_3.body.immovable = true;
+            XXXboxQ_3.body.allowGravity = false;
+            XXXboxQ_3.anims.play('XXXeggs', true);
+            XXXboxQ_3.setTint(0x0000ff);
+
+
+            XXXboxQ_4 = this.physics.add.sprite(3550, 220, 'XXXegg');
+            XXXboxQ_4.body.immovable = true;
+            XXXboxQ_4.body.allowGravity = false;
+            XXXboxQ_4.anims.play('XXXeggs', true);
+            XXXboxQ_4.setTint(0xffff00);
+
+
+            XXXboxQ_5 = this.physics.add.sprite(4550, 220, 'XXXegg');
+            XXXboxQ_5.body.immovable = true;
+            XXXboxQ_5.body.allowGravity = false;
+            XXXboxQ_5.anims.play('XXXeggs', true);
+
+
+
+
+            this.physics.add.collider(XXXplayer, XXXboxQ_1, XXXpopQ_1, null, this);
+            this.physics.add.collider(XXXplayer, XXXboxQ_2, XXXpopQ_2, null, this);
+            this.physics.add.collider(XXXplayer, XXXboxQ_3, XXXpopQ_3, null, this);
+            this.physics.add.collider(XXXplayer, XXXboxQ_4, XXXpopQ_4, null, this);
+            this.physics.add.collider(XXXplayer, XXXboxQ_5, XXXpopQ_5, null, this);
+
+
+
+            XXXAstro = this.physics.add.sprite(5300, 300, 'XXXastro');
+            XXXAstro.body.immovable = true;
+            XXXAstro.body.allowGravity = false;
+            XXXAstro.anims.play('XXXastro', true);
+
+ 
+    //XXXbox1_b = this.physics.add.sprite(500, 220, 'XXXgems');
+   // XXXbox1_b.body.immovable = true;
+   // XXXbox1_b.body.allowGravity = false;
+   // XXXbox1_b.anims.play('XXXvioletGem', true);
+
+
+
+
+
+
+
+
+  //  this.physics.add.collider(ball, boxQ_1);
+
+    
+
+
+    this.cameras.main.startFollow(XXXplayer, true);
+    this.cameras.main.setZoom();
+
+},
+
+
+
+
+
+
+update: function()
+{
+    if (XXXgameOver)
+    {
+        return;
+    }
+
+    if (XXXcursors.left.isDown)
+    {
+        XXXplayer.setVelocityX(-150);
+        XXXplayer.setVelocityY(-10);
+
+        XXXplayer.anims.play('XXXleft', true);
+    }
+    else if (XXXcursors.right.isDown)
+    {
+        XXXplayer.setVelocityX(150);
+        XXXplayer.setVelocityY(-10);
+
+        XXXplayer.anims.play('XXXright', true);
+    }
+    else
+    {
+        XXXplayer.setVelocityX(0);
+
+        XXXplayer.anims.play('XXXturn');
+    }
+
+    if (XXXcursors.space.isDown && XXXplayer.body.touching.down)
+    {
+        XXXplayer.setVelocityY(-150);
+    }
+
+/*    if (cursors.space.isDown)
+    {player.anims.play('jump', true);}*/
+
+
+/*if (ball.body.touching.down)
+    {
+        music.play();
+        ball.anims.play('galaw', true);
+    }*/
+
+
+    //DITO ilalagay yung pag execute ng movements dahil ito yung update update --------------------------------------
+
+
+    
+
+},
+
+
+
+
+
+
+destroy: function(){
+    scene.scene.remove('3rdstage');
+}
+
+
+
+} //end of Stage_3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var XXXconfig = {
+    type: Phaser.AUTO,
+    width: 1004,
+    height: 750,
+    parent: 'XXXgems_game2',
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 100 }, //GRAVITYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+            debug: false
+        }
+    },
+/*    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }*/
+};
+
+
+var XXXgame = new Phaser.Game(XXXconfig);
+
+XXXgame.scene.add('3rdstage', Stage_3);
+
+
+
+
+
+
+function XXXletsgo(){ XXXgame.scene.start('3rdstage'); XXXhowto(); }
+
+
+//Stage_1 Executer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Question 1 ------------------------------------------------------------------------------
+
+
+function XXXpopQ_1(XXXplayer,XXXboxQ_1)
+{
+    XXXboxSound.play();
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXboxQ_1.destroy();
+
+    XXXQuestion_1 = this.add.text(150, 16, '\n The manager is required to evaluate \n how the project or business is progressing \n toward its goals.', { fontSize: '32px', fill: '#fff', align: 'center' });
+
+
+
+    XXXbox1_a = this.physics.add.sprite(300, 220, 'XXXgems');
+    XXXbox1_a.body.immovable = true;
+    XXXbox1_a.body.allowGravity = false;
+    XXXbox1_a.anims.play('XXXredGem', true);
+
+
+    XXXbox1_b = this.physics.add.sprite(500, 220, 'XXXgems');
+    XXXbox1_b.body.immovable = true;
+    XXXbox1_b.body.allowGravity = false;
+    XXXbox1_b.anims.play('XXXvioletGem', true);
+
+
+    XXXbox1_c = this.physics.add.sprite(700, 220, 'XXXgems');
+    XXXbox1_c.body.immovable = true;
+    XXXbox1_c.body.allowGravity = false;
+    XXXbox1_c.anims.play('XXXyellowGem', true);
+
+
+    XXXbox1_d = this.physics.add.sprite(900, 220, 'XXXgems');
+    XXXbox1_d.body.immovable = true;
+    XXXbox1_d.body.allowGravity = false;
+    XXXbox1_d.anims.play('XXXgreenGem', true);
+
+
+
+    this.physics.add.collider(XXXplayer, XXXbox1_a, XXXchoiceFALSE_1, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox1_b, XXXchoiceFALSE_1, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox1_c, XXXchoiceTRUE_1, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox1_d, XXXchoiceFALSE_1, null, this);
+
+
+
+    XXXtext1_a = this.add.text(0, 0, "Goal Setting", style);
+    XXXtext1_a.x = Math.floor(XXXbox1_a.x - XXXbox1_a.width + 10 );
+    XXXtext1_a.y = Math.floor(XXXbox1_a.y + XXXbox1_a.height - 70 );
+
+    XXXtext1_b = this.add.text(0, 0, "Executing the Plan", style);
+    XXXtext1_b.x = Math.floor(XXXbox1_b.x - XXXbox1_b.width);
+    XXXtext1_b.y = Math.floor(XXXbox1_b.y + XXXbox1_b.height - 70 );
+
+    XXXtext1_c = this.add.text(0, 0, "Measuring Results", style);
+    XXXtext1_c.x = Math.floor(XXXbox1_c.x - XXXbox1_c.width);
+    XXXtext1_c.y = Math.floor(XXXbox1_c.y + XXXbox1_c.height - 70 );
+
+    XXXtext1_d = this.add.text(0, 0, "Sustaining Growth", style);
+    XXXtext1_d.x = Math.floor(XXXbox1_d.x - XXXbox1_d.width);
+    XXXtext1_d.y = Math.floor(XXXbox1_d.y + XXXbox1_d.height - 70 );
+
+
+
+ //   warn1_c = this.physics.add.sprite(700, 220, 'warn');
+ //   warn1_c.body.immovable = true;
+ //   warn1_c.body.allowGravity = false;
+ //   warn1_c.anims.play('warn', true);
+
+ //   warn1_d = this.physics.add.sprite(900, 220, 'warn');
+ //   warn1_d.body.immovable = true;
+ //   warn1_d.body.allowGravity = false;
+ //   warn1_d.anims.play('warn', true);
+
+
+
+
+
+}
+
+
+
+
+
+function XXXchoiceTRUE_1 (XXXplayer){
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXcorrect();
+    XXXbox1_a.destroy();
+    XXXbox1_b.destroy();
+    XXXbox1_c.destroy();
+    XXXbox1_d.destroy();
+
+    XXXtext1_a.destroy();
+    XXXtext1_b.destroy();
+    XXXtext1_c.destroy();
+    XXXtext1_d.destroy();
+
+//    warn1_c.destroy();
+//    warn1_d.destroy();
+
+    XXXQuestion_1.destroy();   
+
+    XXXArrowSign1 = this.physics.add.staticGroup();
+    XXXArrowSign1.create(500, 210, 'XXXarrowsign');
+} 
+
+
+
+
+function XXXchoiceFALSE_1 (XXXplayer){
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXincorrect();
+    XXXbox1_a.destroy();
+    XXXbox1_b.destroy();
+    XXXbox1_c.destroy();
+    XXXbox1_d.destroy();
+
+    XXXtext1_a.destroy();
+    XXXtext1_b.destroy();
+    XXXtext1_c.destroy();
+    XXXtext1_d.destroy();
+
+ //   warn1_c.destroy();
+ //   warn1_d.destroy();
+
+    XXXQuestion_1.destroy();
+
+    XXXArrowSign1 = this.physics.add.staticGroup(); 
+    XXXArrowSign1.create(500, 210, 'XXXarrowsign');
+}
+
+
+
+
+//End Question 1 ------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+//Question 2 ------------------------------------------------------------------------------
+
+
+
+function XXXpopQ_2(XXXplayer,XXXboxQ_2)
+{
+    XXXboxSound.play();
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXboxQ_2.destroy();
+
+    XXXQuestion_2 = this.add.text(1150, 16, '\n Proper evaluation allows the manager to \n  detect deviations from the plan in time \n  to take corrective action.', { fontSize: '32px', fill: '#fff', align: 'center' });
+
+
+
+    XXXbox2_a = this.physics.add.sprite(1300, 220, 'XXXgems');
+    XXXbox2_a.body.immovable = true;
+    XXXbox2_a.body.allowGravity = false;
+    XXXbox2_a.anims.play('XXXredGem', true);
+
+
+    XXXbox2_b = this.physics.add.sprite(1500, 220, 'XXXgems');
+    XXXbox2_b.body.immovable = true;
+    XXXbox2_b.body.allowGravity = false;
+    XXXbox2_b.anims.play('XXXvioletGem', true);
+
+
+    XXXbox2_c = this.physics.add.sprite(1700, 220, 'XXXgems');
+    XXXbox2_c.body.immovable = true;
+    XXXbox2_c.body.allowGravity = false;
+    XXXbox2_c.anims.play('XXXyellowGem', true);
+
+
+    XXXbox2_d = this.physics.add.sprite(1900, 220, 'XXXgems');
+    XXXbox2_d.body.immovable = true;
+    XXXbox2_d.body.allowGravity = false;
+    XXXbox2_d.anims.play('XXXgreenGem', true);
+
+
+
+    this.physics.add.collider(XXXplayer, XXXbox2_a, XXXchoiceFALSE_2, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox2_b, XXXchoiceFALSE_2, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox2_c, XXXchoiceTRUE_2, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox2_d, XXXchoiceFALSE_2, null, this);
+
+
+
+    XXXtext2_a = this.add.text(0, 0, "Goal Setting", style);
+    XXXtext2_a.x = Math.floor(XXXbox2_a.x - XXXbox2_a.width + 10 );
+    XXXtext2_a.y = Math.floor(XXXbox2_a.y + XXXbox2_a.height - 70 );
+
+    XXXtext2_b = this.add.text(0, 0, "Executing the Plan", style);
+    XXXtext2_b.x = Math.floor(XXXbox2_b.x - XXXbox2_b.width);
+    XXXtext2_b.y = Math.floor(XXXbox2_b.y + XXXbox2_b.height - 70 );
+
+    XXXtext2_c = this.add.text(0, 0, "Measuring Results", style);
+    XXXtext2_c.x = Math.floor(XXXbox2_c.x - XXXbox2_c.width);
+    XXXtext2_c.y = Math.floor(XXXbox2_c.y + XXXbox2_c.height - 70 );
+
+
+    XXXtext2_d = this.add.text(0, 0, "Sustaining Growth", style);
+    XXXtext2_d.x = Math.floor(XXXbox2_d.x - XXXbox2_d.width);
+    XXXtext2_d.y = Math.floor(XXXbox2_d.y + XXXbox2_d.height - 70 );
+
+}
+
+
+
+
+
+function XXXchoiceTRUE_2 (XXXplayer){
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXcorrect();
+    XXXbox2_a.destroy();
+    XXXbox2_b.destroy();
+    XXXbox2_c.destroy();
+    XXXbox2_d.destroy();
+
+    XXXtext2_a.destroy();
+    XXXtext2_b.destroy();
+    XXXtext2_c.destroy();
+    XXXtext2_d.destroy();
+
+    XXXQuestion_2.destroy();   
+
+    XXXArrowSign1 = this.physics.add.staticGroup();
+    XXXArrowSign1.create(1500, 210, 'XXXarrowsign');
+} 
+
+
+
+
+function XXXchoiceFALSE_2 (XXXplayer){
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXincorrect();
+    XXXbox2_a.destroy();
+    XXXbox2_b.destroy();
+    XXXbox2_c.destroy();
+    XXXbox2_d.destroy();
+
+    XXXtext2_a.destroy();
+    XXXtext2_b.destroy();
+    XXXtext2_c.destroy();
+    XXXtext2_d.destroy();
+
+    XXXQuestion_2.destroy();
+
+    XXXArrowSign1 = this.physics.add.staticGroup(); 
+    XXXArrowSign1.create(1500, 210, 'XXXarrowsign');
+}
+
+
+
+
+// End Question 2 ------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+//Question 3 ------------------------------------------------------------------------------
+
+
+
+function XXXpopQ_3(XXXplayer,XXXboxQ_3)
+{
+    XXXboxSound.play();
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXboxQ_3.destroy();
+
+    XXXQuestion_3 = this.add.text(2150, 16, '\n Corrective action is done by comparing \n actual activities with the planned activities.', { fontSize: '32px', fill: '#fff', align: 'center' });
+
+
+
+    XXXbox3_a = this.physics.add.sprite(2300, 220, 'XXXgems');
+    XXXbox3_a.body.immovable = true;
+    XXXbox3_a.body.allowGravity = false;
+    XXXbox3_a.anims.play('XXXredGem', true);
+
+
+    XXXbox3_b = this.physics.add.sprite(2500, 220, 'XXXgems');
+    XXXbox3_b.body.immovable = true;
+    XXXbox3_b.body.allowGravity = false;
+    XXXbox3_b.anims.play('XXXvioletGem', true);
+
+
+    XXXbox3_c = this.physics.add.sprite(2700, 220, 'XXXgems');
+    XXXbox3_c.body.immovable = true;
+    XXXbox3_c.body.allowGravity = false;
+    XXXbox3_c.anims.play('XXXyellowGem', true);
+
+
+    XXXbox3_d = this.physics.add.sprite(2900, 220, 'XXXgems');
+    XXXbox3_d.body.immovable = true;
+    XXXbox3_d.body.allowGravity = false;
+    XXXbox3_d.anims.play('XXXgreenGem', true);
+
+
+
+    this.physics.add.collider(XXXplayer, XXXbox3_a, XXXchoiceFALSE_3, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox3_b, XXXchoiceFALSE_3, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox3_c, XXXchoiceTRUE_3, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox3_d, XXXchoiceFALSE_3, null, this);
+
+
+
+    XXXtext3_a = this.add.text(0, 0, "Goal Setting", style);
+    XXXtext3_a.x = Math.floor(XXXbox3_a.x - XXXbox3_a.width + 10 );
+    XXXtext3_a.y = Math.floor(XXXbox3_a.y + XXXbox3_a.height - 70 );
+
+    XXXtext3_b = this.add.text(0, 0, "Executing the Plan", style);
+    XXXtext3_b.x = Math.floor(XXXbox3_b.x - XXXbox3_b.width);
+    XXXtext3_b.y = Math.floor(XXXbox3_b.y + XXXbox3_b.height - 70 );
+
+    XXXtext3_c = this.add.text(0, 0, "Measuring Results", style);
+    XXXtext3_c.x = Math.floor(XXXbox3_c.x - XXXbox3_c.width);
+    XXXtext3_c.y = Math.floor(XXXbox3_c.y + XXXbox3_c.height - 70 );
+
+
+    XXXtext3_d = this.add.text(0, 0, "Sustaining Growth", style);
+    XXXtext3_d.x = Math.floor(XXXbox3_d.x - XXXbox3_d.width);
+    XXXtext3_d.y = Math.floor(XXXbox3_d.y + XXXbox3_d.height - 70 );
+
+}
+
+
+
+
+
+function XXXchoiceTRUE_3 (XXXplayer){
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXcorrect();
+    XXXbox3_a.destroy();
+    XXXbox3_b.destroy();
+    XXXbox3_c.destroy();
+    XXXbox3_d.destroy();
+
+    XXXtext3_a.destroy();
+    XXXtext3_b.destroy();
+    XXXtext3_c.destroy();
+    XXXtext3_d.destroy();
+
+    XXXQuestion_3.destroy();    
+
+    XXXArrowSign1 = this.physics.add.staticGroup();
+    XXXArrowSign1.create(2500, 210, 'XXXarrowsign');
+} 
+
+
+
+
+function XXXchoiceFALSE_3 (XXXplayer){
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXincorrect();
+    XXXbox3_a.destroy();
+    XXXbox3_b.destroy();
+    XXXbox3_c.destroy();
+    XXXbox3_d.destroy();
+
+    XXXtext3_a.destroy();
+    XXXtext3_b.destroy();
+    XXXtext3_c.destroy();
+    XXXtext3_d.destroy();
+
+    XXXQuestion_3.destroy();
+
+    XXXArrowSign1 = this.physics.add.staticGroup(); 
+    XXXArrowSign1.create(2500, 210, 'XXXarrowsign');
+}
+
+
+
+//End Question 3 ------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+//Question 4 ------------------------------------------------------------------------------
+
+
+
+function XXXpopQ_4(XXXplayer,XXXboxQ_4)
+{
+    XXXboxSound.play();
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXboxQ_4.destroy();
+
+    XXXQuestion_4 = this.add.text(3150, 16, '\n This stage actually determines the success \n of a business.', { fontSize: '32px', fill: '#fff', align: 'center' });
+
+
+
+    XXXbox4_a = this.physics.add.sprite(3300, 220, 'XXXgems');
+    XXXbox4_a.body.immovable = true;
+    XXXbox4_a.body.allowGravity = false;
+    XXXbox4_a.anims.play('XXXredGem', true);
+
+
+    XXXbox4_b = this.physics.add.sprite(3500, 220, 'XXXgems');
+    XXXbox4_b.body.immovable = true;
+    XXXbox4_b.body.allowGravity = false;
+    XXXbox4_b.anims.play('XXXvioletGem', true);
+
+
+    XXXbox4_c = this.physics.add.sprite(3700, 220, 'XXXgems');
+    XXXbox4_c.body.immovable = true;
+    XXXbox4_c.body.allowGravity = false;
+    XXXbox4_c.anims.play('XXXyellowGem', true);
+
+
+    XXXbox4_d = this.physics.add.sprite(3900, 220, 'XXXgems');
+    XXXbox4_d.body.immovable = true;
+    XXXbox4_d.body.allowGravity = false;
+    XXXbox4_d.anims.play('XXXgreenGem', true);
+
+
+
+    this.physics.add.collider(XXXplayer, XXXbox4_a, XXXchoiceFALSE_4, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox4_b, XXXchoiceFALSE_4, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox4_c, XXXchoiceFALSE_4, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox4_d, XXXchoiceTRUE_4, null, this);
+
+
+
+    XXXtext4_a = this.add.text(0, 0, "Goal Setting", style);
+    XXXtext4_a.x = Math.floor(XXXbox4_a.x - XXXbox4_a.width + 10 );
+    XXXtext4_a.y = Math.floor(XXXbox4_a.y + XXXbox4_a.height - 70 );
+
+    XXXtext4_b = this.add.text(0, 0, "Executing the Plan", style);
+    XXXtext4_b.x = Math.floor(XXXbox4_b.x - XXXbox4_b.width);
+    XXXtext4_b.y = Math.floor(XXXbox4_b.y + XXXbox4_b.height - 70 );
+
+    XXXtext4_c = this.add.text(0, 0, "Measuring Results", style);
+    XXXtext4_c.x = Math.floor(XXXbox4_c.x - XXXbox4_c.width);
+    XXXtext4_c.y = Math.floor(XXXbox4_c.y + XXXbox4_c.height - 70 );
+
+
+    XXXtext4_d = this.add.text(0, 0, "Sustaining Growth", style);
+    XXXtext4_d.x = Math.floor(XXXbox4_d.x - XXXbox4_d.width);
+    XXXtext4_d.y = Math.floor(XXXbox4_d.y + XXXbox4_d.height - 70 );
+
+}
+
+
+
+
+
+function XXXchoiceTRUE_4 (XXXplayer){
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXcorrect();
+    XXXbox4_a.destroy();
+    XXXbox4_b.destroy();
+    XXXbox4_c.destroy();
+    XXXbox4_d.destroy();
+
+    XXXtext4_a.destroy();
+    XXXtext4_b.destroy();
+    XXXtext4_c.destroy();
+    XXXtext4_d.destroy();
+
+    XXXQuestion_4.destroy();   
+
+    XXXArrowSign1 = this.physics.add.staticGroup();
+    XXXArrowSign1.create(3500, 210, 'XXXarrowsign');
+} 
+
+
+
+
+function XXXchoiceFALSE_4 (XXXplayer){
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXincorrect();
+    XXXbox4_a.destroy();
+    XXXbox4_b.destroy();
+    XXXbox4_c.destroy();
+    XXXbox4_d.destroy();
+
+    XXXtext4_a.destroy();
+    XXXtext4_b.destroy();
+    XXXtext4_c.destroy();
+    XXXtext4_d.destroy();
+
+    XXXQuestion_4.destroy();
+    XXXArrowSign1 = this.physics.add.staticGroup(); 
+    XXXArrowSign1.create(3500, 210, 'XXXarrowsign');
+}
+
+
+
+//End Question 4 ------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+//Question 5 ------------------------------------------------------------------------------
+
+
+
+function XXXpopQ_5(XXXplayer,XXXboxQ_5)
+{
+    XXXboxSound.play();
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXboxQ_5.destroy();
+
+    XXXQuestion_5 = this.add.text(4140, 16, '\n You are truly successful if you are able to \n ensure the the continuity and growth \n of your business.', { fontSize: '32px', fill: '#fff', align: 'center' });
+
+
+
+    XXXbox5_a = this.physics.add.sprite(4300, 220, 'XXXgems');
+    XXXbox5_a.body.immovable = true;
+    XXXbox5_a.body.allowGravity = false;
+    XXXbox5_a.anims.play('XXXredGem', true);
+
+
+    XXXbox5_b = this.physics.add.sprite(4500, 220, 'XXXgems');
+    XXXbox5_b.body.immovable = true;
+    XXXbox5_b.body.allowGravity = false;
+    XXXbox5_b.anims.play('XXXvioletGem', true);
+
+
+    XXXbox5_c = this.physics.add.sprite(4700, 220, 'XXXgems');
+    XXXbox5_c.body.immovable = true;
+    XXXbox5_c.body.allowGravity = false;
+    XXXbox5_c.anims.play('XXXyellowGem', true);
+
+
+    XXXbox5_d = this.physics.add.sprite(4900, 220, 'XXXgems');
+    XXXbox5_d.body.immovable = true;
+    XXXbox5_d.body.allowGravity = false;
+    XXXbox5_d.anims.play('XXXgreenGem', true);
+
+
+
+    this.physics.add.collider(XXXplayer, XXXbox5_a, XXXchoiceFALSE_5, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox5_b, XXXchoiceFALSE_5, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox5_c, XXXchoiceFALSE_5, null, this);
+    this.physics.add.collider(XXXplayer, XXXbox5_d, XXXchoiceTRUE_5, null, this);
+
+
+
+    XXXtext5_a = this.add.text(0, 0, "Goal Setting", style);
+    XXXtext5_a.x = Math.floor(XXXbox5_a.x - XXXbox5_a.width + 10 );
+    XXXtext5_a.y = Math.floor(XXXbox5_a.y + XXXbox5_a.height - 70 );
+
+    XXXtext5_b = this.add.text(0, 0, "Executing the Plan", style);
+    XXXtext5_b.x = Math.floor(XXXbox5_b.x - XXXbox5_b.width);
+    XXXtext5_b.y = Math.floor(XXXbox5_b.y + XXXbox5_b.height - 70 );
+
+    XXXtext5_c = this.add.text(0, 0, "Measuring Results", style);
+    XXXtext5_c.x = Math.floor(XXXbox5_c.x - XXXbox5_c.width);
+    XXXtext5_c.y = Math.floor(XXXbox5_c.y + XXXbox5_c.height - 70 );
+
+
+    XXXtext5_d = this.add.text(0, 0, "Sustaining Growth", style);
+    XXXtext5_d.x = Math.floor(XXXbox5_d.x - XXXbox5_d.width);
+    XXXtext5_d.y = Math.floor(XXXbox5_d.y + XXXbox5_d.height - 70 );
+
+}
+
+
+
+
+
+function XXXchoiceTRUE_5 (XXXplayer){
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXcorrect();
+    XXXbox5_a.destroy();
+    XXXbox5_b.destroy();
+    XXXbox5_c.destroy();
+    XXXbox5_d.destroy();
+
+    XXXtext5_a.destroy();
+    XXXtext5_b.destroy();
+    XXXtext5_c.destroy();
+    XXXtext5_d.destroy();
+
+    XXXQuestion_5.destroy();
+
+    setTimeout(XXXfinishNa, 1500);
+} 
+
+
+
+
+function XXXchoiceFALSE_5 (XXXplayer){
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(200);
+
+    XXXincorrect();
+    XXXbox5_a.destroy();
+    XXXbox5_b.destroy();
+    XXXbox5_c.destroy();
+    XXXbox5_d.destroy();
+
+    XXXtext5_a.destroy();
+    XXXtext5_b.destroy();
+    XXXtext5_c.destroy();
+    XXXtext5_d.destroy();
+
+    XXXQuestion_5.destroy();
+
+    setTimeout(XXXfinishNa, 1500);
+}
+
+
+
+
+
+
+//End Question 5 ------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+            
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    //ANSWER FEEDBACK------------------------------------------------
+
+
+    function XXXcorrect(){
+
+        XXXansSound.play();
+        XXXtamaSound.play()
+
+        Swal({
+            title: '',
+            width: 800,
+            padding: '3em',
+            background: '',
+            backdrop: `
+                rgba(0,0,0,0)
+                url("")
+                center
+                no-repeat`,
+            imageUrl: 'assets/correct.png',
+            imageWidth: 545,
+            imageHeight: 500,
+            imageAlt: 'Custom image',
+            animation: false,
+            customClass: 'animated jello',
+            showConfirmButton: false,
+            timer: 1500,
+            allowEscapeKey:   false,
+            allowOutsideClick: false
+        });
+
+        XXXscore = XXXscore + 20;
+        localStorage.setItem("Score3", XXXscore);
+        document.getElementById("XXXshowME").value = 'SCORE: ' + XXXscore + ' /100' ;
+
+    }
+
+
+
+
+
+    function XXXincorrect(){
+
+        XXXansSound.play();
+        XXXmaliSound.play();
+
+        Swal({
+            title: '',
+            width: 800,
+            padding: '3em',
+            background: '',
+            backdrop: `
+                rgba(0,0,0,0)
+                url("")
+                center
+                no-repeat`,
+            imageUrl: 'assets/incorrect.png',
+            imageWidth: 545,
+            imageHeight: 500,
+            imageAlt: 'Custom image',
+            animation: false,
+            customClass: 'animated jello',
+            showConfirmButton: false,
+            timer: 1500,
+            allowEscapeKey:   false,
+            allowOutsideClick: false
+        });
+    }
+
+
+
+
+
+   function XXXfinishNa(){
+
+    XXXbgmusic.pause();
+    XXXfinishSound.play();
+
+    XXXplayer.anims.play('XXXturn');
+    XXXgameOver = true;
+
+    document.getElementById("XXXfinalscore").value = XXXscore ;
+    $('#XXXendscore').modal('toggle')
+
+    this.XXXblocker.destroy();
+    this.XXXplatforms.destroy();
+    this.XXXplayer.destroy();
+    //this.anims.destroy();
+    //this.cursors.destroy();
+    //this.physics.destroy();
+    this.XXXsign_1.destroy();
+    this.XXXsign_2.destroy();
+    this.XXXsign_3.destroy();
+    this.XXXsign_4.destroy();
+    this.XXXsign_5.destroy();
+    this.XXXboxQ_1.destroy();
+    this.XXXboxQ_2.destroy();
+    this.XXXboxQ_3.destroy();
+    this.XXXboxQ_4.destroy();
+    this.XXXboxQ_5.destroy();
+   // this.cameras.destroy();
+
+    this.XXXgame.destroy();
+
+   }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function XXXhowto(){
+        $('#how2').modal('toggle')
+
+
+        var XXXloader = document.getElementById("XXXloader");
+        var XXXbutton = document.getElementById("XXXOkay");
+        setTimeout(XXXOkayButton, 5000);
+
+        function XXXOkayButton(){
+
+            XXXloader.hidden = "hidden";
+            XXXbutton.hidden = "";
+        }
+    }
+
+
+
+    function XXXbackto(){
+        document.location.assign('index.html#menu')
+    }
+
+
+
+
+	function to4th(){
+
+        $('#XXXendscore').modal('toggle');
+
+        setTimeout(heyXXX,1000);
+
+        function heyXXX(){document.location.replace('game4.html');}
+        
+    }
+
+
+
+
+
+    function XXXReminder(){
+
+        Swal({
+              title: 'GRAVITY AFFECTS YOUR MOVEMENTS!',
+              width: 600,
+              padding: '3em',
+              background: '',
+              backdrop: `
+                rgba(255,0,0,0.4)
+                url("")
+                center left
+                no-repeat
+              `,
+              showConfirmButton: false,
+            timer: 3000,
+            allowEscapeKey:   false,
+            allowOutsideClick: false
+            })
+    }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="how2" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="false" style="background-color: linear-gradient(to bottom, #17f0dd, #00b6d4, #007cbc, #00428d, #17054c); background-image: url(assets_4/bgp.png); background-repeat: no-repeat; background-size: 100%; border: none; overflow: hidden;">
+
+        <center>
+            <p class="badaboom2" style="font-size: 30px; padding: -0px; margin: 0px; color: orange"> Activity Card - Exercise 3</p>
+            <p class="badaboom2" style="font-size: 80px; padding: -0px; margin: 0px; color: orange">the four gems - 11 </p>
+             <h6 style="background-color: rgba(255, 255, 255, .6);color: maroon"><i>Instructions: Determine what process/function referred to as 4 gems of Management.</i></h6>
+        </center>
+        <br>
+        <img src="assets_2/character2.png" width="20%" style="left: 0px; bottom: 0px; position: fixed; z-index: 1">    
+        <img src="assets_4/how.png" width="75%" style="right: 90px; bottom: 35px; position: fixed;">
+ 
+
+<div class="modal-dialog modal-lg" role="document" style="background-color: transparent; border: none padding: 0px; margin: 0px;">
+<div class="modal-content" style="background-color: transparent; border: none; padding: 0px; margin: 0px">
+<div class="modal-body" style="background-color: transparent; border: none; padding: 0px; margin: 0px">
+
+
+
+</div>
+</div>
+</div>
+    <button id="XXXOkay" hidden="hidden" data-dismiss="modal" class="punch badaboom2" onclick="XXXReminder(), XXXclicker()" onmouseover="XXXhoverbutton()" style="right: 90px; bottom: -5px; position: fixed;color: orange"> <i class="el el-fw" style="color: pink">&#xf20d;</i> Got it! </button>
+
+    <img id="XXXloader" src="assets_4/load.gif" style="width: 7%; right: 120px; bottom: -5px; position: fixed">
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="XXXendscore" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="false" style="border: none; overflow: hidden; background-color: rgba(25,25,25,0.9); padding-top:75px">
+<div class="modal-dialog modal-lg" role="document" style="background-color: transparent; border: none;">
+
+<div class="modal-content" style="border: 10px ridge orange; background:linear-gradient(to bottom, #ffbfd9, #ff80b3, #ff408d, #ff0066); border-radius: 50px">
+
+<div class="modal-body" style="padding: 20px; background-size: 100%; background-image: url(assets/grats.png); border-radius: 25px">
+
+
+    <center>
+
+        <br>
+        <h1 class="badaboom2" style="color: orange; font-size: 60px">Exercise 3 Completed!</h1>
+        <br>
+        <br>
+        <h3 class="comic"> Your Score is:</h3>
+        <input type="text" class="badaboom2" id="XXXfinalscore" readonly="true" style="color: rgba(255,255,255,1); font-size: 50pt; background-color: rgba(0,0,0,0); font-weight: bold; text-align: center;width: 250px; border: none">
+        <br>
+
+        <button onclick="XXXclicker(), XXXbackto()" onmouseover="XXXhoverbutton()" class="punch badaboom2" style="color: orange"> <i class="el el-fw" style="color: pink">&#xf189;</i>Home</button>
+
+        <i style="color: transparent;">crzn</i>
+
+        <button onclick="XXXclicker(),window.location.reload()" onmouseover="XXXhoverbutton()" class="punch badaboom2" style="color: orange"> <i class="el el-fw" style="color: pink">&#xf1df;</i>Retake</button>
+
+        <i style="color: transparent;">crzn</i>
+
+        <button onclick="to4th(), XXXclicker()" onmouseover="XXXhoverbutton()" class="punch badaboom2" style="color: orange"><i class="el el-fw" style="color: pink">&#xf127;</i>Next</button>
+
+    </center>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script crossorigin type="text/javascript" src="vendor/sweetalert2.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>if (window.module) module = window.module;</script>
+</body>
+</html>

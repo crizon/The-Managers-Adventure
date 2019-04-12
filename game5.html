@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html style="background-color: black">
+<head>
+	<title>The Manager's Adventure - Level 5</title>
+	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="phaser.js"></script>
+    <script src="vendor/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="vendor/sweetalert2.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animate.css">
+	<link rel="stylesheet" type="text/css" href="vendor/own.css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="vendor/jquery.mobile-1.4.5.min.css">
+    <script src="vendor/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="vendor/elusive-icons.css">
+
+    <style type="text/css">
+
+	    ::-webkit-scrollbar { display: none; }
+
+        canvas {
+	        padding-left: 0;
+		    padding-right: 0;
+		    margin-left: auto;
+		    margin-right: auto;
+		    display: block;}
+
+
+
+            html, body {margin: 0; height: 100%; overflow: hidden}
+
+    </style>
+
+<!-- TO DISABLE SELECTING -->
+            <style type="text/css">
+              
+            *
+            {
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            }
+
+            input
+            {
+            -webkit-user-select: auto !important;
+            -khtml-user-select: auto !important;
+            -moz-user-select: auto !important;
+            -ms-user-select: auto !important;
+            user-select: auto !important;
+            }
+
+            img { border: none; pointer-events: none}
+            
+
+            button:focus {
+              border: none;
+              outline: none;
+                }
+
+              input:focus {
+              border: none;
+              outline: none;
+                }
+
+            </style>
+</head>
+<body style="background-color: black" onload="YYYletsgo()">
+
+    <iframe src="sounds/silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
+    <audio id="YYYbgm" autoplay loop src="sounds/bgm_5.ogg"> </audio>
+
+    <script type="text/javascript">
+    
+        function YYYhoverbutton(){
+            var YYYhoverer = new Audio("sounds/hover.mp3");
+            YYYhoverer.play();
+        }
+
+        function YYYclicker(){
+            var YYYclicker = new Audio("sounds/click.mp3");
+            YYYclicker.play();
+
+        }
+            
+        var YYYbgmusic = document.getElementById("YYYbgm");
+        var YYYboxSound = new Audio("sounds/comp.m4a");
+        var YYYansSound = new Audio("sounds/answer.mp3");
+        var YYYmaliSound = new Audio("sounds/mali.mp3");
+        var YYYtamaSound = new Audio("sounds/tama.mp3");
+        var YYYfinishSound = new Audio("sounds/finish.mp3");
+        YYYfinishSound.loop = true;
+
+        var YYYwalkSound = new Audio("sounds/footstep.mp3");
+        var YYYjumpSound = new Audio("sounds/jump.mp3");
+
+
+    
+    function playAudioOnKeyDown(e) {
+            if (e.keyCode == 37 || e.keyCode == 39) {
+                YYYwalkSound.play();
+            }
+
+            if (e.keyCode == 32 && YYYplayer.body.touching.down) {
+                YYYjumpSound.play();
+            }
+
+        }
+        document.onkeydown = playAudioOnKeyDown;
+
+
+        function pauseAudioOnKeyUp(e) {
+            
+        }
+        document.onkeyup = pauseAudioOnKeyUp;
+    </script>
+
+
+
+
+
+
+
+
+
+
+<div data-role="page" id="game" style="background-color: black">
+
+
+    <div class="row" id="YYYScoreBOARD" style="margin-left: 4px; width: 1010px; height: 45px; background-image: url(assets/wood.jpg); border: 5px ridge orange; overflow: hidden;">
+
+        <input type="text" class="comic" id="YYYshowME" readonly="true" style="color: rgba(255,255,255,1); border: none; font-size: 20pt; background-color: rgba(0,0,0,0); font-weight: bold;" value="SCORE: 0 / 100" >
+
+        <p class="comic" style="margin-top: 5px">Enrichment Card - The Four Gems III</p>
+
+        <button class="punch" onclick="YYYhowto(), YYYclicker()" onmouseover="YYYhoverbutton()"  style="margin-left: 45px; padding: 1px; font-size: 12px" data-toggle="modal" data-target="#how2" data-backdrop="static" >How to Play</button>
+
+        <button class="punch" onclick="YYYbackto(), YYYclicker()" onmouseover="YYYhoverbutton()"  style=";margin-left: 25px; padding: 1px; font-size: 12px">Back to Main Menu</button>
+
+    </div>
+
+
+    <div id="YYYgems_game2"></div>
+
+</div>
+
+
+
+
+
+
+
+<div data-role="page" id="new" style="background-image: url(assets_6/a.gif); background-size: 35%">
+
+    <br>
+
+    <!-- <a href="#game" data-transition="pop"> -|- </a> -->
+
+    <div style="position: fixed; left: 20px; width: 980px; height: 650px; border: 5px ridge green; border-radius: 25px;background-image: url(assets_6/as.gif); background-size: 100% 100%; background-position: center;background-repeat: no-repeat;">
+        
+
+        <a href="#shortcase" data-transition="fade" onclick="YYYclicker()" onmouseover="YYYhoverbutton()"><button class="punch digital" style="border-radius: 50%; width: 180px; height: 180px; padding: 20px; color: green; background-color: black; position: fixed; left: 419px; top: 250px;text-align: center; z-index: 5">Start Short Case</button></a>
+
+        <img src="assets_6/1.gif" style="border: 5px double green; position: fixed; left: 50px; top: 50px; height: 250px; width: 380px">
+
+        <img src="assets_6/2.gif" style="border: 5px double green; position: fixed; right: 50px; top: 50px; height: 250px; width: 380px">
+
+        <img src="assets_6/3.gif" style="border: 5px double green; position: fixed; left: 50px; bottom: 25px; height: 310px; width:380px">
+
+        <img src="assets_6/4.gif" style="border: 5px double green; position: fixed; right: 50px; bottom: 25px; height: 310px; width:380px">
+
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<div data-role="page" id="shortcase" style="background-image: url(assets_6/a.gif); background-size: 35%">
+
+    <br>
+
+   <!--  <a href="#game" data-transition="pop"> -|- </a> -->
+
+    <div style="position: fixed; left: 20px; width: 980px; height: 650px; border: 5px ridge green; border-radius: 25px;background-color: black;">
+
+
+
+
+
+        <div id="carouselExampleControls" class="carousel carousel-slide" data-ride="carousel" data-interval="300000">
+
+
+          <div class="carousel-inner">
+
+
+
+
+
+
+            <div class="carousel-item active" style="width: 100%; height: 680px">
+
+                <div style="text-align: left; font-size: 20pt; position: fixed; left: 30px; bottom: 70px">
+
+                    <p class="digital" style="color: green">You are assisting in the small restaurant business of your father. As it is located in the university belt, sales was brisk and pretty good.</p>
+
+                </div>
+
+                <img src="assets_6/1.jpg" style="width: 45%; position: fixed; left: 50px; top: 30px; border: 5px double green; border-radius: 25px">
+
+                <img src="assets_6/2.jpg" style="width: 40%; position: fixed; right: 50px; top: 30px; border: 5px double green; border-radius: 25px">
+
+                <img src="assets_6/3.jpg" style="width: 40%; position: fixed; right: 50px; top: 250px; border: 5px double green; border-radius: 25px">
+
+
+                <div style="bottom: 35px; right: 0px; position: fixed;">
+                    <a class="btn btn-success" href="#carouselExampleControls" role="button" data-slide="next" style="padding-left: 20px;padding-right: 20px; padding-top: 0px; padding-bottom: 0px; font-size: 30px; color: black; border: 3px outset green; border-radius: 25px" onclick="YYYclicker()" onmouseover="YYYhoverbutton()">⏎</a>
+                </div>
+
+            </div>
+
+
+
+
+
+
+            <div class="carousel-item" style="width: 100%; height: 680px">
+
+                <div style="text-align: left; font-size: 20pt; position: fixed; left: 30px; bottom: 70px">
+                    <p class="digital" style="color: green">Your employees consisting of a cook, dishwasher, waiters/waitresses were paid properly in accordance with the Minimum Wage Law. You complied with all the labor standards such as SSS, Phil-health, Pag-Ibig, Medicare, etc. Your business permit was renewed yearly.As they were handling foods, your employees, were duly certified as healthy by the Department of Health.</p>
+                </div>
+                <img src="assets_6/4.jpg" style="width: 65%; position: fixed; right: 150px; top: 30px; border: 5px double green; border-radius: 25px">
+
+                <div style="bottom: 35px; right: 0px; position: fixed;">
+                    <a class="btn btn-success" href="#carouselExampleControls" role="button" data-slide="next" style="padding-left: 20px;padding-right: 20px; padding-top: 0px; padding-bottom: 0px; font-size: 30px; color: black; border: 3px outset green; border-radius: 25px" onclick="YYYclicker()" onmouseover="YYYhoverbutton()">⏎</a>
+                </div>
+                
+            </div>
+
+
+
+
+
+            <div class="carousel-item" style="width: 100%; height: 680px">
+
+                <div style="text-align: left; font-size: 20pt; position: fixed; left: 30px; bottom: 190px">
+                    <p class="digital" style="color: green">One day, 10 of your customers suffered nausea, vomited, and were hospitalized. Suddenly, health inspectors swooped down on your restaurant. Knocking the inside portions of your refrigerators, a swarm of cockroaches jumped out of them. Rats were found running in your kitchen. Your restaurant was instantly closed.</p>
+                </div>
+                <img src="assets_6/5.jpg" style="width: 95%; position: fixed; right: 25px; top: 30px; border: 5px double green; border-radius: 25px">
+
+                <div style="bottom: 35px; right: 0px; position: fixed;">
+                    <a class="btn btn-success" href="#carouselExampleControls" role="button" data-slide="next" style="padding-left: 20px;padding-right: 20px; padding-top: 0px; padding-bottom: 0px; font-size: 30px; color: black; border: 3px outset green; border-radius: 25px" onclick="YYYclicker()" onmouseover="YYYhoverbutton()">⏎</a>
+                </div>
+                
+            </div>
+
+
+
+
+            <div class="carousel-item" style="width: 100%; height: 680px" >
+
+                <div style="text-align: left; font-size: 23pt; position: fixed; left: 85px; top: 50px; color: green">
+                    <p class="digital">What  part  of  the  GEMS  cycle  you  have  failed  to  comply  with?</p>
+                </div>
+
+
+                <div style="text-align: left; position: fixed; left: 90px; top: 250px">
+                    
+                   <button class="punch digital" style="margin: 20px; font-size: 16px; background-color: green; color: black" onclick="YYYclicker(), YYYincorrect()" onmouseover="YYYhoverbutton()" >
+                       <img src="assets_6/a2.gif"><br><br>
+                       Goal Setting
+                   </button> 
+
+                   <button class="punch digital" style="margin: 20px; font-size: 16px; background-color: green; color: black" onclick="YYYclicker(), YYYincorrect()" onmouseover="YYYhoverbutton()" >
+                       <img src="assets_6/a3.gif"><br><br>
+                       Executing Plan
+                   </button>
+
+                   <button class="punch digital" style="margin: 20px; font-size: 16px; background-color: green; color: black" onclick="YYYclicker(), YYYcorrect()" onmouseover="YYYhoverbutton()">
+                       <img src="assets_6/a4.gif"><br><br>
+                       Measuring Results
+                   </button>
+
+                   <button class="punch digital" style="margin: 20px; font-size: 16px; background-color: green; color: black" onclick="YYYclicker(), YYYincorrect()" onmouseover="YYYhoverbutton()" >
+                       <img src="assets_6/a1.gif"><br><br>
+                       Sustaining Growth
+                   </button>
+
+
+                </div>
+
+
+                <div style="bottom: 35px; right: 0px; position: fixed;">
+                    <a class="btn btn-success" href="#carouselExampleControls" role="button" data-slide="next" style="padding-left: 20px;padding-right: 20px; padding-top: 0px; padding-bottom: 0px; font-size: 30px; color: black; border: 3px outset green; border-radius: 25px" onclick="YYYclicker()" onmouseover="YYYhoverbutton()">↺</a>
+                </div>
+                
+            </div>
+
+
+
+
+
+
+
+
+          </div>
+          
+        </div>
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"> 
+
+var YYYgameOver;
+var YYYplayer;
+var YYYplatforms;
+var YYYcursors;
+var YYYblocker;
+
+var YYYscore = 0;
+
+var YYYgender = localStorage.getItem("Gender");
+var style = { font: "14px Arial", fill: "white", align: 'center'};
+
+
+
+
+
+
+
+
+
+var Stage_5 = {
+
+
+
+preload: function()
+{
+    this.load.image('YYYsky', 'assets_6/sky.png');
+    this.load.image('YYYski', 'assets_6/ski.png');
+
+
+    this.load.spritesheet('dude', 'assets_6/dude.png', { frameWidth: 156.25, frameHeight: 250 }); //DITO BABAGUHIN KUNG ANONG SIZE ng per frame yung ilalagay dito, pixels
+
+
+    this.load.spritesheet('sis', 'assets_6/sis.png', { frameWidth: 157, frameHeight: 250 }); //DITO BABAGUHIN KUNG ANONG SIZE ng per frame yung ilalagay dito, pixels
+
+
+  //  this.load.image('YYYQbox', 'assets_6/boxQ.png');
+
+    this.load.image('YYYarrowsign', 'assets_6/ArrowSign.png');
+
+
+    this.load.image('YYYgroundfloor', 'assets_6/boo.png');
+    this.load.image('YYYtopfloor', 'assets_6/buu.png');
+
+
+    this.load.image('YYYparticleshape', 'assets/star.png');
+    this.load.image('YYYmist', 'assets_6/mist.png');
+
+
+    
+
+//    this.load.spritesheet('ball', 'assets/ball.png', { frameWidth: 40, frameHeight: 40 });
+
+    this.load.image('YYYblocker', 'assets_6/blocker.png');
+
+    this.load.image('YYYegg','assets_6/boxQ.png');
+
+    this.load.image('back', 'assets_6/back.png')
+
+
+
+},
+
+create: function()
+{
+    //this.cameras.main.setBackgroundColor('#016dc5')
+    this.cameras.main.setBounds(50, -210, 4750 * 2, 960);
+
+
+  //  this.add.image(400, 300, 'sky');
+    for (x = 0; x < 1; x++)
+        {
+            this.add.image(2448 * x, 0, 'YYYsky').setOrigin(0);
+        }
+
+
+    this.add.image(5520,375, 'YYYski');
+
+
+
+
+
+    YYYplatforms = this.physics.add.staticGroup();
+    YYYplatforms.create(1220, 635, 'YYYgroundfloor');
+
+
+    YYYblocker = this.physics.add.staticGroup();
+    YYYblocker.create(50, 320, 'YYYblocker');
+    YYYblocker.create(17, 320, 'YYYblocker');    
+    YYYblocker.create(0, 320, 'YYYblocker');
+
+    YYYblocker.create(2448,320, 'YYYblocker');
+    //YYYblocker.create(5017,320, 'YYYblocker');
+
+
+
+
+
+
+    YYYplatforms.create(2400, -135, 'YYYtopfloor');
+
+
+
+ 
+
+// (YYY, Y)
+// (from right, from top)
+
+
+
+
+/*
+       var particles = this.add.particles('particleshape'); // initializer nang emitter ------------------------------------------------------
+
+
+        var emitter = particles.createEmitter({
+            //x: 0,
+            //y: { min: 100, max: 500 },
+            lifespan: 1000,
+            speedY: { min: -200, max: -400 },
+            speedYYY: {min:-100, max: 100},
+            scale: { start: 0.4, end: 0 },
+            quantity: 4,
+            blendMode: 'ADD'
+        });
+*/
+
+
+
+    
+
+
+
+	
+
+
+
+
+
+
+
+    // The player and its settings+
+
+    YYYplayer = this.physics.add.sprite(250, 400, YYYgender);
+    YYYplayer.setBounce(.2);
+  //  player.setCollideWorldBounds(true);
+
+    //  Our player animations, turning, walking left and walking right.
+    this.anims.create({
+        key: 'YYYleft',
+        frames: this.anims.generateFrameNumbers(YYYgender, { start: 4, end: 6 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'YYYturn',
+        frames: [ { key: YYYgender, frame: 3 } ],
+        frameRate: 20
+    });
+
+    this.anims.create({
+        key: 'YYYright',
+        frames: this.anims.generateFrameNumbers(YYYgender, { start: 0, end: 2 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+
+
+
+
+
+
+
+
+
+   this.anims.create({
+        key: 'YYYredGem',
+        frames: this.anims.generateFrameNumbers('YYYgems', { start: 4, end: 7 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+   this.anims.create({
+        key: 'YYYyellowGem',
+        frames: this.anims.generateFrameNumbers('YYYgems', { start: 12, end: 15 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+   this.anims.create({
+        key: 'YYYgreenGem',
+        frames: this.anims.generateFrameNumbers('YYYgems', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+   this.anims.create({
+        key: 'YYYvioletGem',
+        frames: this.anims.generateFrameNumbers('YYYgems', { start: 8, end: 11 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+
+
+
+
+
+
+
+
+
+//pwesto ng ginawa mong ball
+  //  ball = this.physics.add.sprite(200, 500, 'ball');
+ //   ball.setBounce(1);
+ //   ball.setMass(2);
+ //   ball.setVelocity(0,-200);
+
+
+
+
+//dito yung pampa target ng frames sa ginawa mong spritesheets -----------------------------------------------------
+/*this.anims.create({
+        key: 'galaw',
+        frames: this.anims.generateFrameNumbers('ball', { start: 0, end: 4 }),
+        frameRate: 10,
+        repeat: -1
+    });*/
+
+
+
+
+//   emitter.startFollow(ball); // para magstart na yung emitter ------------------------------------------------------
+
+
+
+
+
+    //  Input Events
+    YYYcursors = this.input.keyboard.createCursorKeys();
+
+    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+
+
+
+
+
+
+    //  Collide the player and the stars with the platforms
+    this.physics.add.collider(YYYplayer, YYYplatforms);
+
+  //  this.physics.add.collider(ball, platforms);
+
+   // this.physics.add.collider(ball, player);
+
+    this.physics.add.collider(YYYplayer, YYYblocker);
+
+   // this.physics.add.collider(ball, blocker);
+
+
+
+
+
+
+
+
+
+
+
+            YYYmist = this.physics.add.staticGroup();
+            YYYmist.create(2450, 540, 'YYYmist');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            YYYboxQ_1 = this.physics.add.staticGroup();
+            YYYboxQ_1.create(1265, 350, 'YYYegg');
+            this.physics.add.overlap(YYYplayer, YYYboxQ_1, YYYpopQ_1, null, this);
+
+
+    //YYYbox1_b = this.physics.add.sprite(500, 220, 'YYYgems');
+   // YYYbox1_b.body.immovable = true;
+   // YYYbox1_b.body.allowGravity = false;
+   // YYYbox1_b.anims.play('YYYvioletGem', true);
+
+
+
+
+
+
+
+
+  //  this.physics.add.collider(ball, boxQ_1);
+
+    
+
+
+    this.cameras.main.startFollow(YYYplayer, true);
+    this.cameras.main.setZoom();
+
+},
+
+
+
+
+
+
+update: function()
+{
+    if (YYYgameOver)
+    {
+        return;
+    }
+
+    if (YYYcursors.left.isDown)
+    {
+        YYYplayer.setVelocityX(-260);
+        YYYplayer.anims.play('YYYleft', true);
+    }
+    else if (YYYcursors.right.isDown)
+    {
+        YYYplayer.setVelocityX(260);
+        YYYplayer.anims.play('YYYright', true);
+    }
+    else
+    {
+        YYYplayer.setVelocityX(0);
+        YYYplayer.anims.play('YYYturn');
+    }
+
+    if (YYYcursors.space.isDown && YYYplayer.body.touching.down)
+    { 
+        YYYplayer.setVelocityY(-340);
+    }
+
+/*    if (cursors.space.isDown)
+    {player.anims.play('jump', true);}*/
+
+
+/*if (ball.body.touching.down)
+    {
+        music.play();
+        ball.anims.play('galaw', true);
+    }*/
+
+
+    //DITO ilalagay yung pag execute ng movements dahil ito yung update update --------------------------------------
+
+
+    
+
+},
+
+
+
+
+
+
+destroy: function(){
+    scene.scene.remove('5thstage');
+}
+
+
+
+} //end of Stage_5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var YYYconfig = {
+    type: Phaser.AUTO,
+    width: 1004,
+    height: 750,
+    parent: 'YYYgems_game2',
+    physics: { default: 'arcade', arcade: { gravity: { y: 600 }, debug: false } },
+    audio: { disableWebAudio: true }
+};
+
+
+var YYYgame = new Phaser.Game(YYYconfig);
+
+YYYgame.scene.add('5thstage', Stage_5);
+
+
+
+
+
+
+function YYYletsgo(){ YYYgame.scene.start('5thstage'); YYYhowto(); 
+
+//var samplenum = 500 / 3;
+//samplenum++;
+
+// save an item
+//localStorage.setItem("score", samplenum );
+
+
+   
+
+
+// retrieve an item
+//var crzn = localStorage.getItem("score");
+
+
+// remove an item
+//localStorage.removeItem("item-key");
+
+
+// remove all items
+//localStorage.clear();
+
+//alert(localStorage.getItem("score"));
+}
+
+
+//Stage_1 Executer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Question 1 ------------------------------------------------------------------------------
+
+
+function YYYpopQ_1(YYYplayer,YYYboxQ_1)
+{
+
+
+    backer = this.physics.add.staticGroup();
+    backer.create(1179, 450, 'back');
+
+    YYYplayer.disableBody(true,true);
+
+    YYYgameOver = true;
+    YYYboxSound.play();
+    this.physics.pause();
+
+    this.cameras.main.flash(1000);
+    this.cameras.main.shake(1500);
+    this.cameras.main.setZoom(2);
+
+    YYYboxQ_1.destroy();
+
+    setTimeout(lastshit, 1500);
+
+    function lastshit(){
+        document.location.replace('game5.html#new', { transition: "flow"}); 
+    }
+
+}
+
+
+
+
+
+function YYYchoiceTRUE_1 (YYYplayer){
+
+    YYYansSound.play()
+
+    YYYcorrect();
+
+    setTimeout(YYYfinishNa, 1500);
+} 
+
+
+
+
+function YYYchoiceFALSE_1 (YYYplayer){
+
+    YYYansSound.play()
+
+    YYYincorrect();
+
+    setTimeout(YYYfinishNa, 1500);
+}
+
+
+
+
+//End Question 1 ------------------------------------------------------------------------------
+
+
+
+</script>
+
+
+            
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    //ANSWER FEEDBACK------------------------------------------------
+
+
+    function YYYcorrect(){
+
+        YYYtamaSound.play();
+
+        Swal({
+            title: '',
+            width: 800,
+            padding: '3em',
+            background: '',
+            backdrop: `
+                rgba(0,0,0,0)
+                url("")
+                center
+                no-repeat`,
+            imageUrl: 'assets/correct.png',
+            imageWidth: 545,
+            imageHeight: 500,
+            imageAlt: 'Custom image',
+            animation: false,
+            customClass: 'animated jello',
+            showConfirmButton: false,
+            timer: 1500,
+            allowEscapeKey:   false,
+            allowOutsideClick: false
+        });
+
+        setTimeout(YYYfinishNa, 1500);
+
+        YYYscore = YYYscore + 100;
+        localStorage.setItem("Score5", YYYscore);
+        document.getElementById("YYYshowME").value = 'SCORE: ' + YYYscore + ' /100' ;
+
+    }
+
+
+
+
+
+    function YYYincorrect(){
+
+        YYYmaliSound.play();
+
+        Swal({
+            title: '',
+            width: 800,
+            padding: '3em',
+            background: '',
+            backdrop: `
+                rgba(0,0,0,0)
+                url("")
+                center
+                no-repeat`,
+            imageUrl: 'assets/incorrect.png',
+            imageWidth: 545,
+            imageHeight: 500,
+            imageAlt: 'Custom image',
+            animation: false,
+            customClass: 'animated jello',
+            showConfirmButton: false,
+            timer: 1500,
+            allowEscapeKey:   false,
+            allowOutsideClick: false
+        });
+
+        setTimeout(YYYfinishNa, 1500);
+    }
+
+
+
+
+
+   function YYYfinishNa(){
+
+    YYYfinishSound.play();
+    YYYbgmusic.pause();
+
+    document.getElementById("YYYfinalscore").value = YYYscore ;
+
+    $('#YYYendscore').modal('toggle');
+    
+
+
+    this.YYYblocker.destroy();
+    this.YYYplatforms.destroy();
+    this.YYYplayer.destroy();
+
+    this.YYYgame.destroy();
+
+   }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function YYYhowto(){
+        $('#how2').modal('toggle')
+
+
+        var YYYloader = document.getElementById("YYYloader");
+        var YYYbutton = document.getElementById("YYYOkay");
+        setTimeout(YYYOkayButton, 5000);
+
+        function YYYOkayButton(){
+
+            YYYloader.hidden = "hidden";
+            YYYbutton.hidden = "";
+        }
+    }
+
+
+
+    function YYYbackto(){
+        document.location.assign('index.html#menu')
+    }
+
+
+    function ibaba(){
+
+    $('#YYYendscore').modal('toggle');
+    
+    }
+
+
+    function thanks(){
+
+        Swal({
+            title: '',
+            width: 800,
+            padding: '3em',
+            background: '',
+            backdrop: `
+                rgba(0,0,0,1)
+                url("")
+                center
+                no-repeat`,
+            imageUrl: 'assets_6/thanks.png',
+            imageWidth: 545,
+            imageHeight: 500,
+            imageAlt: 'Custom image',
+            animation: false,
+            customClass: 'animated jello',
+            showConfirmButton: false,
+            timer: 7000,
+            allowEscapeKey:   false,
+            allowOutsideClick: false
+        });
+
+        setTimeout(YYYbackto, 7000);
+
+    }
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="how2" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="false" style="background-color: linear-gradient(to bottom, #17f0dd, #00b6d4, #007cbc, #00428d, #17054c); background-image: url(assets_6/bgp.png); background-repeat: no-repeat; background-size: 100%; border: none; overflow: hidden;">
+
+        <br>
+        <center>
+            <p class="badaboom2" style="font-size: 35px; padding: -0px; margin: 0px; color: orange"> Enrichment Card </p>
+            <p class="badaboom2" style="font-size: 80px; padding: -0px; margin: 0px; color: orange"> 4 Gems </p>
+             <h6 style="background-color: rgba(255, 255, 255, .6);color: maroon"><i>Short case: Choose the correct answer.</i></h6>
+
+            
+        </center>
+        <br>
+        <img src="assets_6/character2.png" width="25%" style="left: 0px; bottom: 0px; position: fixed; z-index: 1">    
+        <img src="assets_6/how.png" width="75%" style="right: 90px; bottom: 35px; position: fixed;">
+ 
+
+<div class="modal-dialog modal-lg" role="document" style="background-color: transparent; border: none padding: 0px; margin: 0px;">
+<div class="modal-content" style="background-color: transparent; border: none; padding: 0px; margin: 0px">
+<div class="modal-body" style="background-color: transparent; border: none; padding: 0px; margin: 0px">
+
+
+
+</div>
+</div>
+</div>
+    <button id="YYYOkay" onclick="YYYclicker()" onmouseover="YYYhoverbutton()" hidden="hidden" data-dismiss="modal" class="punch badaboom2" style="right: 90px; bottom: -5px; position: fixed;color: orange"> <i class="el el-fw" style="color: pink">&#xf20d;</i> Got it! </button>
+
+    <img id="YYYloader" src="assets_6/load.gif" style="width: 7%; right: 120px; bottom: -5px; position: fixed">
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="YYYendscore" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="false" style="border: none; overflow: hidden; background-color: rgba(25,25,25,0.9); padding-top:75px">
+<div class="modal-dialog modal-lg" role="document" style="background-color: transparent; border: none;">
+
+<div class="modal-content" style="border: 10px ridge orange; background:linear-gradient(to bottom, #ffffbf, #ffff80, #ffff40, #ffff00); border-radius: 50px">
+
+<div class="modal-body" style="padding: 20px; background-size: 100%; background-image: url(assets/grats.png); border-radius: 25px">
+
+
+    <center>
+
+        <br>
+        <h1 class="badaboom2" style="color: orange; font-size: 40px">Enrichment Card Completed!</h1>
+        <br>
+        <br>
+        <h3 class="comic"> Your Score is:</h3>
+        <input type="text" class="badaboom2" id="YYYfinalscore" readonly="true" style="color: rgba(255,255,255,1); font-size: 50pt; background-color: rgba(0,0,0,0); font-weight: bold; text-align: center;width: 250px; border: none">
+        <br><br>
+
+        <button onclick="YYYclicker(), YYYbackto()" onmouseover="YYYhoverbutton()" class="punch badaboom2" style="color: orange"> <i class="el el-fw" style="color: pink">&#xf189;</i>Home</button>
+
+        <i style="color: transparent;">crzn</i>
+
+        <button onclick="YYYclicker(),window.location.reload()" onmouseover="YYYhoverbutton()" class="punch badaboom2" style="color: orange"> <i class="el el-fw" style="color: pink">&#xf1df;</i>Retake</button>
+
+        <i style="color: transparent;">crzn</i>
+
+        <a href="#score_summary" data-transition="pop" onclick="YYYclicker(), ibaba(), lastNa()" onmouseover="YYYhoverbutton()" >
+            <button class="punch badaboom2" style="width: 300px; color: orange"> <i class="el el-fw" style="color: pink">&#xf161;</i>
+                Go to Scores Summary
+            </button>
+        </a>
+
+    </center>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    <script type="text/javascript">
+
+        function lastNa(){ 
+
+
+        //Get the local storage ----------------------------------------------------------------------
+      // var studID = localstorage.getItem('IDNUMBER');
+      //  var studName = localstorage.getItem('StudentName');
+
+        var Xs1 = localStorage.getItem("Score1");
+        var Xs2 = localStorage.getItem("Score2");
+        var Xs3 = localStorage.getItem("Score3");
+        var Xs4 = localStorage.getItem("Score4");
+        var Xs5 = localStorage.getItem("Score5");
+
+        //Convert the retrieved localstorage values, from string to integer ---------------------------
+        var s1 = parseInt(Xs1, 10);
+        var s2 = parseInt(Xs2, 10);
+        var s3 = parseInt(Xs3, 10);
+        var s4 = parseInt(Xs4, 10);
+        var s5 = parseInt(Xs5, 10);
+
+        //Sum the converted datatypes -----------------------------------------------------------------
+        var TotalDragon = s1 + s2 + s3 + s4 + s5;
+
+        //Put the values to an input tag as the bearer ------------------------------------------------
+        document.getElementById("score_1").value = s1 ;
+        document.getElementById("score_2").value = s2 ;
+        document.getElementById("score_3").value = s3 ;
+        document.getElementById("score_4").value = s4 ;
+        document.getElementById("score_5").value = s5 ;
+        document.getElementById("total_dragon").value = TotalDragon + " / 500" ;
+       // document.getElementById("IDNum").value = studID ;
+       // document.getElementById("fullName").value = studName ;
+
+
+
+
+
+
+
+
+
+
+        var step1 = TotalDragon / 500;
+        var percent = step1 * 100;
+        document.getElementById("percentkid").value = percent + " %";
+
+
+
+        }
+
+        
+    </script>
+
+
+
+
+
+<div data-role="page" id="score_summary" style="background-image: url(assets_6/a.gif); background-size: 35%">
+   <!-- <a href="#game">bubu</a> -->
+
+    <div style="padding: 20px; background-size: 100%; background-image: url(assets/grats.png); border-radius: 25px; background-color: pink; margin-left:20px;margin-top: 15px; border: 5px ridge orange; width: 975px; height: 590px">
+
+        <center>
+            <input class="comic" type="text" style="text-align: center; color: black; font-size: 40px; width: 450px; margin-top: 55px; border: 3px ridge skyblue; border-radius: 10px" value="Enter Name Here">
+        </center>
+
+        <div style="position: fixed;top: 200px; left: 400px">
+            <div class="row" style="width: 250px">
+            <i class="col" style="width: 75px; text-align: left; margin-top: 7px">Stage 1:</i>
+            <input readonly="true" class="col comic" type="text" id="score_1" style="text-align: left; align-content: center ; color: black;border: none; background-color: rgba(0,0,0,0); font-size: 25px; width: 150px">
+            </div>
+
+            <div class="row" style="width: 250px">
+            <i class="col" style="width: 75px; text-align: left; margin-top: 7px">Stage 2:</i>
+            <input readonly="true" class="col comic" type="text" id="score_2" style="text-align: left; align-content: center ; color: black;border: none;  background-color: rgba(0,0,0,0); font-size: 25px; width: 150px">
+            </div>
+
+            <div class="row" style="width: 250px">
+            <i class="col" style="width: 75px; text-align: left; margin-top: 7px">Stage 3:</i>
+            <input readonly="true" class="col comic" type="text" id="score_3" style="text-align: left; align-content: center ; color: black;border: none;  background-color: rgba(0,0,0,0); font-size: 25px; width: 150px">
+            </div>
+
+            <div class="row" style="width: 250px">
+            <i class="col" style="width: 75px; text-align: left; margin-top: 7px">Stage 4:</i>
+            <input readonly="true" class="col comic" type="text" id="score_4" style="text-align: left; align-content: center ; color: black;border: none;  background-color: rgba(0,0,0,0); font-size: 25px; width: 150px">
+            </div>
+
+            <div class="row" style="width: 250px; border-bottom: 1px solid black">
+            <i class="col" style="width: 75px; text-align: left; margin-top: 7px">Stage 5:</i>
+            <input readonly="true" class="col comic" type="text" id="score_5" style="text-align: left; align-content: center ; color: black;border: none;  background-color: rgba(0,0,0,0); font-size: 25px; width: 150px">
+            </div>
+
+            <center>
+            <input readonly="true" class="col comic" type="text" id="total_dragon"style="text-align: left; align-content: center ; color: black;border: none;  background-color: rgba(0,0,0,0); font-size: 35px; width: 200px">
+            </center>
+
+
+            <input readonly="true" class="comic" type="text" id="percentkid" style="width: 175px; height: 175px; border: none; border-radius: 50%; font-size: 60px; margin-left: 25px;text-align: center; background:linear-gradient(to bottom, #ffffbf, #ffff80); ">
+
+
+        </div>
+  
+
+    </div>
+
+    <br>
+    <center>
+        <button class="badaboom2 punch" onmouseover="YYYhoverbutton()" onclick="thanks(), YYYclicker()" style="color: orange"> <i class="el el-fw" style="color: pink">&#xf189;</i>Home</button>
+    </center> 
+
+
+
+
+   <!--  <input type="text" id="IDNum" style="color: black">
+    <input type="text" id="fullName" style="color: black"> -->
+
+
+</div>
+
+
+
+
+
+
+<script crossorigin type="text/javascript" src="vendor/sweetalert2.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>if (window.module) module = window.module;</script>
+</body>
+</html>

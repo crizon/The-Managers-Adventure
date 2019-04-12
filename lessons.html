@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: black"> 
+<head> 
+    <meta charset="UTF-8" />
+    <title>The Manager's Adventure</title>
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="phaser.js"></script>
+	<script src="vendor/jquery-1.11.1.min.js"></script>
+	<script src="vendor/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="vendor/sweetalert2.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animate.css">
+	<link rel="stylesheet" type="text/css" href="vendor/own.css">
+    <link rel="stylesheet" type="text/css" href="vendor/jquery.mobile-1.4.5.min.css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    
+
+    <style type="text/css">
+
+	    ::-webkit-scrollbar { display: none; }
+
+        canvas {
+	        padding-left: 0;
+		    padding-right: 0;
+		    margin-left: auto;
+		    margin-right: auto;
+		    display: block;      }
+    </style>
+
+<!-- TO DISABLE SELECTING -->
+            <style type="text/css">
+              
+            *
+            {
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            }
+
+            input
+            {
+            -webkit-user-select: auto !important;
+            -khtml-user-select: auto !important;
+            -moz-user-select: auto !important;
+            -ms-user-select: auto !important;
+            user-select: auto !important;
+            }
+
+            img { border: none; pointer-events: none}
+            
+
+            button:focus {
+              border: none;
+              outline: none;
+                }
+
+              input:focus {
+              border: none;
+              outline: none;
+                }
+
+
+             .talkbox {
+				position: fixed;
+				bottom: 25px;
+				border: 10px ridge brown;
+				margin-left:  30px;
+				margin-right: 30px;
+				margin-bottom: 10px;
+				border-radius: 0px 150px 150px 200px;
+				-moz-border-radius: 0px 150px 150px 200px;
+				-webkit-border-radius: 0px 150px 150px 200px;
+				background-color: white;
+				z-index: 1;
+
+			}
+
+
+			
+            </style>
+
+
+
+
+
+
+
+
+
+
+
+<style>
+.no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url(vendor/loader.gif) center no-repeat #fff;
+}
+</style> 
+
+
+<script type="text/javascript">
+
+  $(window).load(function() {
+    $(".se-pre-con").fadeOut("slow");;
+  });
+  
+</script>
+
+
+</head>
+
+<body style="background-color: black; overflow: hidden;">
+
+	<iframe src="sounds/silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
+    <audio id="bgm" autoplay loop src="sounds/bgm_X.m4a"> </audio>
+    <audio id="l1" autoplay src="sounds/line_1.ogg" type="audio/ogg"> </audio>
+
+    <audio id="l2" src="sounds/line_2.mp3"> </audio>
+    <audio id="l3" src="sounds/line_3.mp3"> </audio>
+    <audio id="l4" src="sounds/line_4.mp3"> </audio>
+    <audio id="l5" src="sounds/line_5.mp3"> </audio>
+    <audio id="l6" src="sounds/line_6.mp3"> </audio>
+
+    <audio id="les1" src="sounds/less_1.mp3"> </audio>
+    <audio id="les2" src="sounds/less_2.mp3"> </audio>
+    <audio id="les3" src="sounds/less_3.mp3"> </audio>
+
+    <audio id="hoverer" hidden="true" src="sounds/hover.mp3"> </audio>
+	<audio id="clickerer" hidden="true" src="sounds/click.mp3"></audio>
+
+    <script>
+
+    	var bgmvol = document.getElementById("bgm");
+    	bgmvol.volume = 0.3;
+
+    	var l1 = document.getElementById("l1");
+    	var l2 = document.getElementById("l2");
+    	var l3 = document.getElementById("l3");
+    	var l4 = document.getElementById("l4");
+    	var l5 = document.getElementById("l5");
+    	var l6 = document.getElementById("l6");
+
+    	var les1 = document.getElementById("les1");
+    	var les2 = document.getElementById("les2");
+    	var les3 = document.getElementById("les3");
+
+    	function line2(){
+    		l1.pause();
+    		l2.play();
+    	}
+
+    	function line3(){
+    		l2.load();
+    		l3.play();
+    	}
+
+    	function line4(){
+    		l3.load();
+    		l4.play();
+    	}
+
+    	function line5(){
+    		l4.load();
+    		l5.play();
+    	}
+
+    	function less1(){
+    		l5.load();
+    		les1.play();
+    	}
+
+    	function less2(){
+    		les1.load();
+    		les2.play();
+    	}
+
+    	function les2_1(){
+    		les2.load();
+    		les1.play();
+    	}
+
+    	function less3(){
+    		les2.load();
+    		les3.play();
+    	}
+
+    	function les3_2(){
+    		les3.load();
+    		les2.play();
+    	}
+
+    	function line6(){
+    		les3.load();
+    		l6.play();
+    	}
+
+    	function rep(){
+    		l6.load();
+    		l5.play();
+    	}
+
+    	function hoverbutton(){
+		    var hoverer = document.getElementById("hoverer");
+		    hoverer.play();
+		}
+
+		function clicker(){
+		    var clicker = document.getElementById("clickerer");
+		    clicker.play();
+
+		}
+
+
+
+    </script>
+
+
+
+
+
+<div class="se-pre-con"></div> 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div data-role="page" id="script_1" style="background-image: url(assets_2/bg1.png); background-color: lightgray">
+
+	<img src="assets_2/balloons/heart heart.gif" style="position: fixed; left: 160px; top: 170px; z-index: 2; transform: rotate(25deg); width: 55px" >
+	<img src="assets_2/character2.png" style="margin-top: 150px; margin-left: -15px; width: 300px">
+
+
+	<div class="talkbox" style="margin-left: 200px; padding-left: 50px; padding-right: 50px; padding-top: none; height: 180px">
+
+			<h1 class="scripts" style="margin-left: 15px">Miss Rosalinda</h1>
+
+			<p class="typer scripts" style="font-size: 25px; margin-left: 80px; margin-top: -15px"
+			  data-words="Hello and welcome future manager! My name is Rosalinda."
+			  data-colors="black"
+			  data-delay="20"
+			  data-deleteDelay="1000">
+			</p>
+
+			
+
+			<a href="#script_2" data-transition="none" onclick="line2(), clicker()" onmouseover="hoverbutton()">
+				<button class="punch typer-start" data-owner="speech2" style="border-radius: 25px;float: right; padding: 5px ">⏎</button>
+			</a>
+	</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div data-role="page" id="script_2" style="background-image: url(assets_2/bg1.png); background-color: lightgray">
+
+	<img src="assets_2/balloons/3 dots.gif" style="position: fixed; left: 160px; top: 170px; z-index: 2; transform: rotate(25deg); width: 55px" >
+	<img src="assets_2/character.png" style="margin-top: 150px; margin-left: -15px; width: 300px">
+
+
+
+	<div class="talkbox" style="margin-left: 200px; padding-left: 50px; padding-right: 50px; padding-top: none; height: 180px">
+
+			<h1 class="scripts" style="margin-left: 15px">Miss Rosalinda</h1>
+
+			<p class="typer scripts" style="font-size: 25px; margin-left: 80px; margin-top: -15px"
+			   data-words="I'm here to help you understand what Management is."
+			   data-colors="black"
+			   data-delay="20"
+			   data-deleteDelay="1000">
+			</p>
+
+			<a href="#script_3" data-transition="none" onclick="line3(), clicker()" onmouseover="hoverbutton()">
+				<button class="punch" style="border-radius: 25px;float: right; padding: 5px ">⏎</button>
+			</a>
+	</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div data-role="page" id="script_3" style="background-image: url(assets_2/bg1.png); background-color: lightgray">
+
+	<img src="assets_2/balloons/idea bulb.gif" style="position: fixed; left: 160px; top: 170px; z-index: 2; transform: rotate(25deg); width: 55px " >
+	<img src="assets_2/character3.png" style="margin-top: 150px; margin-left: -15px; width: 300px">
+
+
+
+	<div class="talkbox" style="margin-left: 200px; padding-left: 50px; padding-right: 50px; padding-top: none; height: 180px">
+
+			<h1 class="scripts" style="margin-left: 15px">Miss Rosalinda</h1>
+
+			<p class="typer scripts" style="font-size: 25px; margin-left: 80px; margin-top: -15px"
+			   data-words="They say it's a hard job to be a manager. But don't be afraid!"
+			   data-colors="black"
+			   data-delay="20"
+			   data-deleteDelay="1000">
+			</p>
+
+			<a href="#script_4" data-transition="none" onclick="line4(), clicker()" onmouseover="hoverbutton()">
+				<button class="punch" style="border-radius: 25px;float: right; padding: 5px ">⏎</button>
+			</a>
+	</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div data-role="page" id="script_4" style="background-image: url(assets_2/bg1.png); background-color: lightgray">
+
+	<img src="assets_2/balloons/exclamation.gif" style="position: fixed; left: 160px; top: 170px; z-index: 2; transform: rotate(25deg); width: 55px" >
+	<img src="assets_2/character5.png" style="margin-top: 150px; margin-left: -15px; width: 300px">
+
+
+
+	<div class="talkbox" style="margin-left: 200px; padding-left: 50px; padding-right: 50px; padding-top: none; height: 180px">
+
+			<h1 class="scripts" style="margin-left: 15px">Miss Rosalinda</h1>
+
+			<p class="typer scripts" style="font-size: 25px; margin-left: 80px; margin-top: -15px"
+			   data-words="You will surely learn what management is all about!"
+			   data-colors="black"
+			   data-delay="20"
+			   data-deleteDelay="1000">
+			</p>
+
+			<a href="#script_5" data-transition="fade" onclick="line5(), clicker()" onmouseover="hoverbutton()">
+				<button class="punch" style="border-radius: 25px;float: right; padding: 5px ">⏎</button>
+			</a>
+	</div>
+	
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div data-role="page" id="script_5" style="background-image: url(assets_2/bg1.png); background-color: lightgray">
+
+	<img src="assets_2/balloons/3 dots.gif" style="position: fixed; left: 160px; top: 170px; z-index: 2; transform: rotate(25deg); width: 55px " >
+	<img src="assets_2/character4.png" style="margin-top: 150px; margin-left: -15px; width: 300px">
+
+
+
+	<div class="talkbox" style="margin-left: 200px; padding-left: 50px; padding-right: 50px; padding-top: none; height: 180px">
+
+			<h1 class="scripts" style="margin-left: 15px">Miss Rosalinda</h1>
+
+			<p class="typer scripts" style="font-size: 25px; margin-left: 80px; margin-top: -15px"
+			   data-words="Always Remember these: "
+			   data-colors="black"
+			   data-delay="20"
+			   data-deleteDelay="1000">
+			</p>
+
+			
+				<button class="punch" style="border-radius: 25px;float: right; padding: 5px; font-size: 25px" data-toggle="modal" data-target="#one_modal" data-backdrop="static" onclick="less1(), clicker()" onmouseover="hoverbutton()">Show Slide</button>
+			
+	</div>
+
+
+</div>
+
+
+
+	  	
+
+
+
+
+
+
+
+
+
+
+
+
+<div data-role="page" id="script_6" style="background-image: url(assets_2/bg1.png); background-color: lightgray">
+
+	<img src="assets_2/balloons/heart heart.gif" style="position: fixed; left: 160px; top: 170px; z-index: 2; transform: rotate(25deg); width: 55px" >
+	<img src="assets_2/character2.png" style="margin-top: 150px; margin-left: -15px; width: 300px">
+
+
+
+	<div class="talkbox" style="margin-left: 200px; padding-left: 50px; padding-right: 50px; padding-top: none; height: 180px">
+
+			<h1 class="scripts" style="margin-left: 15px">Miss Rosalinda</h1>
+
+			<p class="typer scripts" style="font-size: 25px; margin-left: 80px; margin-top: -15px"
+			   data-words="I hope you learned a lot."
+			   data-colors="black"
+			   data-delay="20"
+			   data-deleteDelay="1000">
+			</p>
+
+
+			<a href="#script_5" data-transition="fade" onclick="rep(), clicker()" onmouseover="hoverbutton()">
+				<button class="punch" style="border-radius: 25px; font-size: 15px; padding: 4px">Review Lessons</button>
+			</a>
+
+			<a onclick="toMainMenu(), clicker()" onmouseover="hoverbutton()">
+				<button class="punch" style="border-radius: 25px;float: right; font-size: 15px; padding: 4px">Thank You!</button>
+			</a>
+	</div>
+	
+
+
+</div>
+
+	<script type="text/javascript">
+		function toMainMenu(){document.location.assign('index.html#menu');}
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="one_modal" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content" >
+<div class="modal-body" style="border: 1px dashed gray; padding: 2px">
+			    		
+
+
+
+
+
+<div id="carouselExampleControls" class="carousel carousel-fade" data-ride="carousel" data-interval="300000">
+
+
+  <div class="carousel-inner" style="background-image: url(assets_2/bg.jpg)" >
+
+
+
+
+
+
+
+
+    <div class="carousel-item active" style="padding: none"> 
+    	
+
+		<section  style="margina: none">
+	      <div class="container cj2">
+	        <div class="row align-items-center">
+	          <div class="col-lg-6 order-lg-2">
+	                <div class="p-2">
+	                  <img class="img-fluid kwan" src="assets_2/people.jpg" width="80%" alt="" style="border: 5px double black; margin-left: 70px">
+	                </div>
+	          </div>
+	          <div class="col-lg-6 order-lg-1">
+	            <div class="p-2">
+	              <!-- <h2 class="display-4 wee comic"><b> Management </b></h2> -->
+	              <p style="color: #2b2c2d; font-size: 20px">The simplest definition of <b class="comic"> management </b> is getting things done through people.</p>
+	              <p style="color: #2b2c2d; font-size: 20px">It implies that an organization, whether small, medium, or large, is composed of people.</p>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </section>
+
+	    <center>
+	    	<div style="height: 20px; width: 50%;border-bottom: .5px solid gray"></div>
+	    	<div style="height: 20px; width: 50%;border-top: .5px solid gray"></div>
+	    </center>
+
+	   <section>
+	      <div class="container cj1">
+	        <div class="row align-items-center">
+	          <div class="col-lg-6">
+	            <div class="p-2">
+	              <img class="img-fluid kwan" src="assets_2/people2.jpg" width="80%" style="border: 5px double black">
+	            </div>
+	          </div>
+	          <div class="col-lg-6">
+	            <div class="p-2">
+	             <!-- // <h2 class="display-4 wee" ><b> Percent Kid </b></h2> -->
+	              <p style="color: #2b2c2d; font-size: 20px">A business organization exist for a purpose. All these business entities exist for a profit and have people.</p>
+	              <p style="color: #2b2c2d; font-size: 20px; font-weight: bold;">It is the people in these organization that get the work done.</p>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </section>
+
+	    <center>
+	    	<a href="#carouselExampleControls" role="button" data-slide="next" onclick="less2(), clicker()" onmouseover="hoverbutton()">
+				<button class="punch" style="font-size: 15px; padding: 4px">Next</button>
+			</a>
+		</center>
+
+		
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="carousel-item"> 
+    	
+    	
+
+		<section>
+	      <div class="container">
+	        <div class="row align-items-center">
+	          <div class="col-lg-6 order-lg-2">
+	                <div class="p-2">
+	                  <img class="img-fluid" src="assets_2/people3.jpg" width="80%" style="border: 5px double black; margin-left: 70px">
+	                </div>
+	          </div>
+	          <div class="col-lg-6 order-lg-1">
+	            <div class="p-2">
+	              <h2 class="display-4 comic"><b> Management </b></h2>
+	              <p style="color: #2b2c2d; font-size: 20px">Is a function that directs and coordinates the efforts of the people to accomplish goals and objectives by using available resources effectively and efficiently.</p>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </section>
+
+	    <center>
+	    	<div style="height: 20px; width: 50%;border-bottom: .5px solid gray"></div>
+	    	<div style="height: 20px; width: 50%;border-top: .5px solid gray"></div>
+	    </center>
+
+	   	<section>
+	      <div class="container">
+	        <div class="row align-items-center">
+	          <div class="col-lg-6">
+	            <div class="p-2">
+	              <img class="img-fluid" src="assets_2/people4.jpg" width="80%" style="border: 5px double black">
+	            </div>
+	          </div>
+	          <div class="col-lg-6">
+	            <div class="p-2">
+	             <!-- // <h2 class="display-4 wee" ><b> Percent Kid </b></h2> -->
+	              <p style="color: #2b2c2d; font-size: 20px">It is also a process of accomplishing the organization's goals by working with and through people.</p>
+	              <p style="color: #2b2c2d; font-size: 20px">Its task includes:</p>
+	              <li>planning</li>
+	              <li>organizing</li>
+	              <li>staffing</li>
+	              <li>directing and controlling</li>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </section>
+
+	    <center>
+
+	    	<a href="#carouselExampleControls" role="button" data-slide="prev" style="color: black" onclick="les2_1(), clicker()" onmouseover="hoverbutton()">
+	    		<img src="assets_2/back.png">
+	    	</a>
+
+	    	<a href="#carouselExampleControls" role="button" data-slide="next" onclick="less3(), clicker()" onmouseover="hoverbutton()">
+				<button class="punch" style="font-size: 15px; padding: 4px">Next</button>
+			</a>
+
+		</center>
+
+		
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="carousel-item"> 
+    	
+    	
+
+		<section>
+	      <div class="container">
+	        <div class="row align-items-center">
+	          <div class="col-lg-6 order-lg-2">
+	                <div class="p-2">
+	                  <img class="img-fluid" src="assets_2/people5.jpg" width="80%" style="border: 5px double black; margin-left: 70px">
+	                </div>
+	          </div>
+	          <div class="col-lg-6 order-lg-1">
+	            <div class="p-2">
+	              <h2 class="display-4 comic"><b> Management </b></h2>
+	              <p style="color: #2b2c2d; font-size: 20px">Is a process, a non-stop process of ensuring continuity and growth within an organization.</p>
+	              <p style="color: #2b2c2d; font-size: 20px">It involves:</p>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </section>
+
+	    <center>
+	    	<div style="height: 20px; width: 50%;border-bottom: .5px solid gray"></div>
+	    	<div style="height: 20px; width: 50%;border-top: .5px solid gray"></div>
+	    </center>
+
+	   	<section>
+	      <div class="container">
+	      	<b style="font-size: 25px; margin-left: 5px" class="comic">The Four Gems of Management</b>
+	        <div class="row align-items-center">
+	          <div class="col-lg-6">
+	            <div class="p-2">
+	            	
+	              <img class="img-fluid" src="assets_2/gems.gif" style="border: 5px double black">
+	            </div>
+	          </div>
+	          <div class="col-lg-6">
+	            <div class="p-2">
+	             <!-- // <h2 class="display-4 wee" ><b> Percent Kid </b></h2> -->
+		              <p style="font-size: 20px"><span style="color: red; font-weight: bold; -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;"> ♦ </span> Goal Setting</p>
+
+		              <p style="font-size: 20px"><span style="color: violet; font-weight: bold; -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;"> ♦ </span> Executing The Plan</p>
+
+		              <p style="font-size: 20px"><span style="color: yellow; font-weight: bold; -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;"> ♦ </span> Measuring Results</p>
+
+		              <p style="font-size: 20px"><span style="color: green; font-weight: bold; -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;"> ♦ </span> Sustaining Operations</p>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </section>
+
+	    <center>
+
+	    	<a href="#carouselExampleControls" role="button" data-slide="prev" style="color: black" onclick="les3_2(), clicker()" onmouseover="hoverbutton()">
+	    		<img src="assets_2/back.png">
+	    	</a>
+
+	    	<a href="#carouselExampleControls" role="button" data-slide="next" data-dismiss="modal" onclick="to6(), line6(), clicker()" onmouseover="hoverbutton()">
+				<button class="punch" style="font-size: 15px; padding: 4px" >Okay</button>
+			</a>
+
+		</center>
+
+		
+    </div>
+
+
+
+
+
+  </div>
+  
+</div>
+
+
+			            
+
+
+</div>
+</div>
+</div> 
+</div>
+
+
+<script type="text/javascript">
+	function to6(){
+		document.location.assign('lessons.html#script_6')
+	}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+<script type="text/javascript">
+		$(document).on('pagebeforeshow', '#script_2', function(){ 
+    	alert('unadesu')
+		});
+
+		$(document).on('pagecreate', '#script_2', function(){ 
+    	alert('ayun')
+		});
+</script> -->
+
+
+
+<script src="vendor/typer.js"></script>
+<script crossorigin type="text/javascript" src="vendor/sweetalert2.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>if (window.module) module = window.module;</script>
+</body>
+</html>
